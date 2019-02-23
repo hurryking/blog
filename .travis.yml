@@ -18,7 +18,7 @@ deploy:
   on:
       branch: master
       local_dir: public
-      repo: zyfdegh/zyfdegh.github.io
+      repo: hurryning/hurryning.github.io
       target_branch: master
       email: deploy@travis-ci.org
       name: deployment-bot
