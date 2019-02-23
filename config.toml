@@ -1,6 +1,8 @@
 baseURL = "https://hurryking.github.io/"
 languageCode = "zh-CN"
-title = "My New Hugo Site"
+title = "胡言乱语"
+
+github="https://github.com/hurryking"
 
 theme = "jeffprod"
 
