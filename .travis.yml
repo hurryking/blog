@@ -17,8 +17,8 @@ deploy:
   github_token: $GITHUB_API_KEY
   on:
       branch: master
-      local_dir: public
-      repo: hurryking/hurryking.github.io
-      target_branch: master
-      email: deploy@travis-ci.org
-      name: deployment-bot
+  local_dir: public
+  repo: hurryking/hurryking.github.io
+  target_branch: master
+  email: deploy@travis-ci.org
+  name: deployment-bot
