@@ -1,1 +1,1 @@
-Hello BLOG
+Hello BLOG!
