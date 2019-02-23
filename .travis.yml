@@ -18,7 +18,7 @@ deploy:
   on:
       branch: master
       local_dir: public
-      repo: hurryning/hurryning.github.io
+      repo: hurryking/hurryking.github.io
       target_branch: master
       email: deploy@travis-ci.org
       name: deployment-bot
