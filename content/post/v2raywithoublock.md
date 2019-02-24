@@ -46,26 +46,34 @@ vps购买好以后, 需要安装的软件分服务端和客户端
 ​    **以下所有操作建议用root执行**
 
 #### 安装Nginx并配置给站点ssl证书
-    我们先来安装nginx
-    
-    nginx 安装脚本 [在这里](http://mirrors.linuxeye.com/oneinstack-full.tar.gz
-) 如果不想看教程直接复制下面这条命令在家目录下执行
-​    
-        wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --ssh_port 22
-    nginx 安装完成后 接下来我们来为购买的域名生成虚拟主机配置文件
-       
-        ./oneinstack/vhost.sh
-    选择如下图
+  我们先来安装nginx
+  nginx 安装脚本 [在这里](http://mirrors.linuxeye.com/oneinstack-full.tar.gz) 如果不想看教程直接复制下面这条命令在家目录下执行
+
+```
+wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --ssh_port 22
+```
+
+  nginx 安装完成后 接下来我们来为购买的域名生成虚拟主机配置文件
+```
+./oneinstack/vhost.sh
+```
+
+选择如下图
 ![](https://user-gold-cdn.xitu.io/2019/2/24/1691dd483cdb3e0a?w=572&h=328&f=png&s=21041)
 ​    配置完成后我们需要改下生成的nginx配置
-​    
-        vi /usr/local/nginx/conf/vhost/example.com.conf
-    修改以配置，大约在23行下添加如下配置
+
+```
+vi /usr/local/nginx/conf/vhost/example.com.conf
+```
+
+​    修改以配置，大约在23行下添加如下配置
 
 ![](https://user-gold-cdn.xitu.io/2019/2/24/1691dde2e3caae54?w=598&h=287&f=png&s=14849)
 ​    然后重新加载下nginx的配置
-​    
-        systemctl reload nginx
+
+```
+systemctl reload nginx
+```
 
 nginx安装完成后，我们开始安装v2ray
 
@@ -79,8 +87,10 @@ v2ray一键安装教程 [在这里](https://github.com/233boy/v2ray/wiki/V2Ray%E
 &nbsp;&nbsp;&nbsp;&nbsp;不配置shadowsock
 
 v2ray安装完成后，我们修改下v2ray的配置
-​    
-    vi /etc/v2ray/config.json
+
+```
+vi /etc/v2ray/config.json
+```
 
 改为如下配置
 
@@ -146,8 +156,10 @@ v2ray安装完成后，我们修改下v2ray的配置
     }
 
 然后重启v2ray
-​    
-    v2ray restart
+
+```
+v2ray restart
+```
 
 至此服务端算是安装配置完成
 
@@ -247,7 +259,7 @@ Android [apk包下载地址](https://github.com/2dust/v2rayNG/releases/download/
 配置的大概意思是把请求发给example.com的443端口，传输协议使用ws(websocket)，使用TLS加密，websocket的域名为 example.com，websocket的路径为/ray
 其他客户端的配置类似就不一一写出来了，主要原因还是没有条件 ^_^
 
-配置完成后打开 chrome 浏览器安装 Proxy SwitchyOmega 扩展配置代理协议为sock5 地址 127.0.0.1 端口为 1080 切换至 **proxy** 模式
+配置完成后打开 chrome 浏览器，安装 Proxy SwitchyOmega 扩展，配置代理协议为sock5 地址 127.0.0.1 端口为 1080 切换至 **proxy** 模式
 
 ## 结束语
 然后打开文首的链接就可以看到墙是怎么工作的了 [维基百科简介](https://zh.wikipedia.org/wiki/%E9%98%B2%E7%81%AB%E9%95%BF%E5%9F%8E) 希望大家遵纪守法不要用来做不利于国家团结的事 ^_^
