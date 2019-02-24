@@ -71,6 +71,17 @@ vi /usr/local/nginx/conf/vhost/example.com.conf
 ​    修改以配置，大约在23行下添加如下配置
 
 ![](https://user-gold-cdn.xitu.io/2019/2/24/1691dde2e3caae54?w=598&h=287&f=png&s=14849)
+
+```
+location /ray {
+      proxy_redirect off;
+      proxy_pass http://127.0.0.1:10000;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_set_header Host $http_host;
+}
+```
 ​    然后重新加载下nginx的配置
 
 ```
