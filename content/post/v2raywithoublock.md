@@ -35,6 +35,7 @@ author: John SMITH
 
 vps购买好以后, 需要安装的软件分服务端和客户端
 
+### 安装服务端
 我们先来安装服务端软件
 服务端需要安装的软件
 1. nginx(用来转发流量，起混淆作用)
@@ -44,6 +45,7 @@ vps购买好以后, 需要安装的软件分服务端和客户端
 ![](https://user-gold-cdn.xitu.io/2019/2/24/1691c1693dfee5ae?w=966&h=600&f=png&s=88229)
     **以下所有操作建议用root执行**
 
+#### 安装Nginx并配置给站点ssl证书
     我们先来安装nginx
     
     nginx 安装脚本 [在这里](http://mirrors.linuxeye.com/oneinstack-full.tar.gz
@@ -66,8 +68,9 @@ vps购买好以后, 需要安装的软件分服务端和客户端
         systemctl reload nginx
 
 nginx安装完成后，我们开始安装v2ray
-    
-v2ray一键安装教程 [在这里](https://github.com/233boy/v2ray/wiki/V2Ray%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC) 感谢大佬 [233boy](https://233blog.com) 为萌新提供便利 
+
+#### 安装v2ray    
+v2ray一键安装教程 [在这里](https://github.com/233boy/v2ray/wiki/V2Ray%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC) 感谢大佬 [233boy](https://233blog.com) 为萌新提供便利
     
 &nbsp;&nbsp;&nbsp;&nbsp;协议我们先随便选下(后面我们需要手工改下配置)
 
@@ -148,14 +151,15 @@ v2ray安装完成后，我们修改下v2ray的配置
 
 至此服务端算是安装配置完成
 
+### 安装客户端
 接下来我们开始安装配置客户端
 
-Windos [下载地址](https://github.com/2dust/v2rayN)
+Windows [下载地址](https://github.com/2dust/v2rayN)
 Mac [下载地址](https://github.com/yanue/V2rayU)
 IOS 去应用商店搜 Kitsunebi 或 i2Ray
 Android [apk包下载地址](https://github.com/2dust/v2rayNG/releases/download/0.6.14/app-universal-release.apk)
 
-贴下Windos客户端配置
+贴下Windows客户端配置
 
     {
       "inbound": {
@@ -245,5 +249,6 @@ Android [apk包下载地址](https://github.com/2dust/v2rayNG/releases/download/
 
 配置完成后打开 chrome 浏览器安装 Proxy SwitchyOmega 扩展配置代理协议为sock5 地址 127.0.0.1 端口为 1080 切换至 **proxy** 模式
 
+## 结束语
 然后打开文首的链接就可以看到墙是怎么工作的了 [维基百科简介](https://zh.wikipedia.org/wiki/%E9%98%B2%E7%81%AB%E9%95%BF%E5%9F%8E) 希望大家遵纪守法不要用来做不利于国家团结的事 ^_^
 
