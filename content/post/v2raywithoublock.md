@@ -277,3 +277,7 @@ Android [apk包下载地址](https://github.com/2dust/v2rayNG/releases/download/
 ## 结束语
 然后打开文首的链接就可以看到墙是怎么工作的了 [维基百科简介](https://zh.wikipedia.org/wiki/%E9%98%B2%E7%81%AB%E9%95%BF%E5%9F%8E) 希望大家遵纪守法不要用来做不利于国家团结的事 ^_^
 
+
+20190206更新
+
+执行下来有什么问题,可以在我的[掘金](https://juejin.im/user/5729b8681ea4930064b00d6f)帐号下留言
