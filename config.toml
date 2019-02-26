@@ -2,6 +2,8 @@ baseURL = "https://hurryking.github.io/"
 languageCode = "zh-CN"
 title = "胡言乱语"
 
+summaryLength=50
+
 github="https://github.com/hurryking"
 
 theme = "jeffprod"
