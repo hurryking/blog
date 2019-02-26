@@ -179,9 +179,12 @@ v2ray restart
 ### 安装客户端
 接下来我们开始安装配置客户端
 
-Windows [下载地址](https://github.com/2dust/v2rayN)
+Windows [下载地址](https://github.com/v2ray/v2ray-core/releases) (找自己对应系统版本的包 32位和64位不一样)
+
 Mac [下载地址](https://github.com/yanue/V2rayU)
+
 IOS 去应用商店搜 Kitsunebi 或 i2Ray
+
 Android [apk包下载地址](https://github.com/2dust/v2rayNG/releases/download/0.6.14/app-universal-release.apk)
 
 贴下Windows客户端配置
