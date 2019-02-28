@@ -6,14 +6,6 @@ tags: []
 author: John SMITH
 ---
 
----
-title: "leetcode 593. Valid Square"
-date: 2019-02-23T17:41:55+08:00
-archives: "2019"
-tags: []
-author: lanren
----
-
 Given the coordinates of four points in 2D space, return whether the four points could construct a square.
 
 The coordinate (x,y) of a point is represented by an integer array with two integers.
