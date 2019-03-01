@@ -1,9 +1,10 @@
-+++
-date = "2019-03-01T01:11:21+08:00"
-draft = true
-title = "leecode02"
-
-+++
+---
+title: "Leetcod02"
+date: 2019-03-01T01:11:21+08:00
+archives: "2019"
+tags: []
+author: John SMITH
+---
 
 Implement atoi which converts a string to an integer.
 
