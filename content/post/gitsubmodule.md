@@ -27,7 +27,7 @@ git submodule add git@github.com:hurryking/let-s-go.git
 ```
 然后在 parent 下就能看到刚才加的子库，还有一个 **.gitmodules** 文件，里面记录着子库的在这个项目的路径和远程仓库的地址
 
-![gitsubmodlue01](https://hurryking.github.io/img/gitsubmodle01.png)
+![gitsubmodule01](https://hurryking.github.io/img/gitsubmodule01.png)
 
 然后提交这次的改动
 ```
