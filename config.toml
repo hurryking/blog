@@ -9,7 +9,7 @@ github="https://github.com/hurryking"
 theme = "jeffprod"
 
 [permalinks]
-    post = "/:year/:filename"
+    post = "/:year/:month/:title/"
 
 [taxonomies]
     tag = "tags"
