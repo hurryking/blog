@@ -50,3 +50,16 @@ x=1221
 s = Solution()
 print(s.isPalindrome(x))
 ```
+然后去评论区看了下，又出现了一行解决的，思路是把数字转字符串然后反转，和没反转前的对比一样就是回文，这个思路比我的好，并且发现了一个骚操作，一行反转字符串
+```
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
+
+        return str(x) == str(x)[::-1]
+
+```
+还有除法算倒过来的数然后进行整数对比的，如果要研究时间复杂度，个人觉的上面的一行时间复杂度不好，还得再深入研究下。
