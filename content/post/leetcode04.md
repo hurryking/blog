@@ -1,6 +1,6 @@
 ---
-title: "Leetcod04"
-date: 2019-04-01T01:05:00+08:00
+title: "Leetcode04"
+date: 2019-03-05T01:18:38+08:00
 archives: "2019"
 tags: []
 author: Mr King
