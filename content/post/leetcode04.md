@@ -24,11 +24,11 @@ Explanation: 342 + 465 = 807.
 有时候思路很清晰，但是实现起来就是特别慢，还是基本功没打好，得加油了
 
 ```
-\#Definition for singly-linked list.
-\#class ListNode(object):
-\#     def __init__(self, x):
-\#         self.val = x
-\#         self.next = None
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 class Solution(object):
     def addTwoNumbers(self, l1, l2):
@@ -89,7 +89,7 @@ class Solution(object):
 class Solution(object):
     def addTwoNumbers(self, l1, l2):
         carry = 0
-        \# 头节点为哑节点
+        # 头节点为哑节点
         root = n = ListNode(0)
         while l1 or l2 or carry:
             \# 如果最后一次进位了还需要再往后插入一个１(这个实现是实在是棒！)
