@@ -2,7 +2,7 @@
 title: "Leetcode03"
 date: 2019-03-03T18:23:20+08:00
 archives: "2019"
-tags: []
+tags: [leetcode]
 author: Mr n
 ---
 

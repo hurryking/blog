@@ -2,7 +2,7 @@
 title: "Leetcode04"
 date: 2019-03-05T01:18:38+08:00
 archives: "2019"
-tags: []
+tags: [leetcode]
 author: Mr King
 ---
 
