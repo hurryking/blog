@@ -36,5 +36,7 @@ def mergeKLists(self, lists):
 ```
 
 ### Conclusion
+
 想起了大佬 Linus 的那句话 
+
 > "Bad programmers worry about the code. Good programmers worry about data structures and their relationships."
