@@ -3,8 +3,10 @@ title: "Leetcode01"
 date: 2019-02-28T02:28:38+08:00
 archives: "2019"
 tags: []
-author: John SMITH
+author: Mr King
 ---
+
+### Valid Square
 
 Given the coordinates of four points in 2D space, return whether the four points could construct a square.
 
