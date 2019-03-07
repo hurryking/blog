@@ -1,5 +1,5 @@
 ---
-title: "Leetcod02"
+title: "Leetcode02"
 date: 2019-03-01T01:11:21+08:00
 archives: "2019"
 tags: [leetcode]
