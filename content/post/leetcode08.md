@@ -54,4 +54,4 @@ Hope you guys can understand this one.
 
 这道题看了一天，最终还是看懂了，有些感悟写在下面
 
-> Someone born with a silver spoon in the month, someone not, the only thing you can do is accept that, and moveing on your fuking way, there must be something great waiting for you, maybe a fuking gold mine.
+> Someone born with a silver spoon in the mouth, someone not, the only thing you can do is accept that, and moveing on your fuking way, there must be something great waiting for you, maybe a fuking gold mine.
