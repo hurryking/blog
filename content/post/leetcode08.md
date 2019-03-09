@@ -46,7 +46,7 @@ class Solution(object):
                 return dummy.next
 ```
 Follwing is my draft about this problem Haha.
-<img src="https://hurryking.github.io/img/reverse-KGroup1.jpeg" style="height:250px;">
+![](https://hurryking.github.io/img/reverse-KGroup1.jpeg)
 
 Hope you guys can understand this one.
 
