@@ -46,7 +46,7 @@ class Solution(object):
                 return dummy.next
 ```
 Follwing is my draft about this problem Haha.
-![reverseKGRoup](https://hurryking.github.io/img/reverse-KGroup.jpeg)
+<img src="https://user-gold-cdn.xitu.io/2019/3/9/169626eddc4b3a16?w=1080&h=1920&f=jpeg&s=223910" style="transform:rotate(270deg);-webkit-transform: rotate(270deg);">
 
 Hope you guys can understand this one.
 
