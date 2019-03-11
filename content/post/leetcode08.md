@@ -20,8 +20,8 @@ Here is the question I don't understanind last time.
 	
 	Let's tear ``jump.next, jump, l = pre, l, r`` apart.
 	```
-	jump.next = pre # this line just do the dummy.next work in the first iteration, second iteartion this line run in vain, this is the part someone really confused about.
-	jump = l # connect the prev K-group an next K-group
+	jump.next = pre # this line just do the dummy.next work in the first iteration, second iteartion this line link the previou KGroup tail and next KGroup head, this is the part someone really confused about.
+	jump.next, jump = prev, l # connect the prev K-group an next K-group
 	l = r # move the K-group boundary
 	```
 
