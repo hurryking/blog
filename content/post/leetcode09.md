@@ -49,4 +49,4 @@ class Solution(object):
 
 ### Conclusion
 
->The stars will always shining, even if it's a rainnig day.
+>The stars will always shining, even it's a rainnig day.
