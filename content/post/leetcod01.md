@@ -22,7 +22,7 @@ All the input integers are in the range [-10000, 10000].
 A valid square has four equal sides with positive length and four equal angles (90-degree angles).
 Input points have no order.
 
-看完题目，回家想了一路，大概思路是求两点之间的距离，如果是正方形两点之前的距离只有个值，暴力破解两层循环，代码不堪入目
+看完题目，回家想了一路，大概思路是求两点之间的距离，如果是正方形两点之前的距离只有两个个值，暴力破解两层循环，代码不堪入目
 
 看评论区有个两行搞定的
 ```
