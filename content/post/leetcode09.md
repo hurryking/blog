@@ -43,9 +43,11 @@ class Solution(object):
 
 ```
 
-![dfs](https://hurryking.github.io/img/permutations.png)
+![dfs](https://hurryking.github.io/img/BackTracking.jpg)
 
 相当于一棵树分了n叉,　每个子树都是除了自己以外的节点的排列组合，然后再往下分(n-1)叉，分(n-2)叉，边遍历边分叉，记录下到最后节点的路径
+
+涉及到循环加递归，对递归理解比较浅会被绕进去，得再多看几次
 
 ### Conclusion
 
