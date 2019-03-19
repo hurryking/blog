@@ -48,8 +48,9 @@ vps购买好以后, 需要安装的软件分服务端和客户端
 ​    **以下所有操作建议用root执行**
 
 #### 安装Nginx并配置给站点ssl证书
-  我们先来安装nginx
-  nginx 安装脚本 [在这里](http://mirrors.linuxeye.com/oneinstack-full.tar.gz) 如果不想看教程可以直接复制下面这条命令在家目录下执行
+我们先来安装nginx
+  
+安装脚本 [在这里](http://mirrors.linuxeye.com/oneinstack-full.tar.gz) 如果不想看教程可以直接复制下面这条命令在家目录下执行
 
 ```
 wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --ssh_port 22
