@@ -1,4 +1,4 @@
-baseURL = "https://hurryking.github.io/"
+baseURL = "http://www.v2end.com"
 languageCode = "zh-CN"
 title = "胡言乱语"
 
@@ -7,6 +7,8 @@ summaryLength=50
 github="https://github.com/hurryking"
 
 theme = "jeffprod"
+
+disqusShortname = "hu-yan-luan-yu"
 
 [permalinks]
     post = "/:year/:month/:title/"
