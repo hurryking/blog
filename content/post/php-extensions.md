@@ -12,9 +12,9 @@ author: Mr King
 最近有好多人问我怎么给 PHP 添加新语法特性。我仔细想了想，确实没有这方面的教程，接下来我会阐述整个流程。同时这篇文章也是对 Zend 引擎的一个简介。
 我提前为这篇过长的稿子道歉。
 
-这篇帖子假设你已经掌握了一些 C 的基本知识，并且了解 PHP 的一些基本概念(像　zvals 结构体)。如果你不具备这些条件，建议先去了解一下。
+这篇帖子假设你已经掌握了一些 C 的基本知识，并且了解 PHP 的一些基本概念(像 zvals 结构体)。如果你不具备这些条件，建议先去了解一下。
 
-我将使用你可能从其他语言获知的　``in``　运算符作为一个例子。它表现如下:
+我将使用你可能从其他语言获知的 ``in`` 运算符作为一个例子。它表现如下:
 
 ```
 $words = ['hello', 'world', 'foo', 'bar'];
@@ -27,18 +27,18 @@ var_dump('PHP' in $string);    // true
 var_dump('Python' in $string); // false
 ```
 
-基本上来说，``in``　操作符和　``in_array``　函数在数组中的使用一样(但是没有 needle/haystack 问题)，和字符函数 ``false != strpos($str2, $str1)`` 也类似。
+基本上来说，``in`` 操作符和 ``in_array`` 函数在数组中的使用一样(但是没有 needle/haystack 问题)，和字符函数 ``false != strpos($str2, $str1)`` 也类似。
 
 #### 准备工作
 
-在开始之前，你必须检出并编译 PHP。所以接下来我们需要安装一些工具。大部分可能都预先在系统上安装好了，但是你必须使用自己选择的包管理工具安装　"re2c" 和　“bison”。如果你用的是　Ubuntu:
+在开始之前，你必须检出并编译 PHP。所以接下来我们需要安装一些工具。大部分可能都预先在系统上安装好了，但是你必须使用自己选择的包管理工具安装 "re2c" 和 “bison”。如果你用的是 Ubuntu:
 
 ```
 $ sudo apt-get install re2c
 $ sudo apt-get install bison
 ``` 
 
-接下来，从　git 上克隆　php-src　并进行编译:
+接下来，从 git 上克隆 php-src　并进行编译:
 
 ```
 // 获取源码
@@ -54,18 +54,18 @@ $ ./configure --disable-all --enable-debug --enable-maintainer-zts
 $ make -j4
 ``` 
 
-PHP 二进制包应该在　``sapi/cli/php``。你可以尝试以下操作:
+PHP 二进制包应该在 ``sapi/cli/php``。你可以尝试以下操作:
 
 ```
 $ sapi/cli/php -v
 $ sapi/cli/php -r 'echo "Hallo World!";'
 ```
 
-现在你可能已经有了一个编译过的 PHP，接下来我们看下　PHP 在运行一个脚本的时候都做了哪些事。
+现在你可能已经有了一个编译过的 PHP，接下来我们看下 PHP 在运行一个脚本的时候都做了哪些事。
 
 #### PHP 脚本的声明周期
 
-运行一个　PHP 脚本有三个主要阶段:
+运行一个 PHP 脚本有三个主要阶段:
 
 1. Tokenization(符号化)
 2. Parsing & Compilation(解析和编译)
@@ -75,7 +75,7 @@ $ sapi/cli/php -r 'echo "Hallo World!";'
 
 #### 符号化
 
-第一阶段　PHP　读取源代码，把源码切分成更小的　“token”　单元。举个例子```<?php echo "Hello World!";```会被拆解成下面的 token:
+第一阶段 PHP 读取源代码，把源码切分成更小的 “token” 单元。举个例子```<?php echo "Hello World!";```会被拆解成下面的 token:
 
 ```
 T_OPEN_TAG (<?php )
@@ -108,7 +108,7 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
     zendlval->type = IS_STRING;
 ```
 
-``{LABEL}`` 匹配一个　PHP 标识(可以被定义为``[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*``)，代码返回　token ``T_STRING``。另外它复制　token 的文本到　``zendlval``。所以如果　lexer 遇到一个标识像 ``FooBarClass``，它将设置　``FooBarClass`` 作为lval。字符串，数字和变量名称也一样。
+``{LABEL}`` 匹配一个　PHP 标识(可以被定义为``[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*``)，代码返回　token ``T_STRING``。另外它复制　token 的文本到　``zendlval``。所以如果　lexer 遇到一个标识像 ``FooBarClass``，它将设置 ``FooBarClass`` 作为lval。字符串，数字和变量名称也一样。
 
 幸运的是 ``in`` 操作符并不需要深层次的　lexer 知识。我们只需要添加以下代码段到文件中(与上面的 ``exit``　类似):
 
@@ -120,13 +120,13 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 
 (**译者注: 新版已经不是上面的写法了**)
 
-除此之外我们需要让引擎知道我们添加了一个新的 token。打开　``zend_language_parser.y`` 加入下面的行在它的类似代码中(在定义操作符的代码段中):
+除此之外我们需要让引擎知道我们添加了一个新的 token。打开 ``zend_language_parser.y`` 加入下面的行在它的类似代码中(在定义操作符的代码段中):
 
 ```
 %token T_IN "in (T_IN)"
 ```
 
-现在你应该用　``make -j4`` 重新编译下　PHP (必须在顶级目录 ``php-src`` 中执行，不是 ``Zend/``)。这会产生一个新由 re2c　生成的　lexer 并编译它。为了测试我们的修改是否生效。需要执行以下命令:
+现在你应该用 ``make -j4`` 重新编译下　PHP (必须在顶级目录 ``php-src`` 中执行，不是 ``Zend/``)。这会产生一个新由 re2c　生成的　lexer 并编译它。为了测试我们的修改是否生效。需要执行以下命令:
 
 ```
 $ sapi/cli/php -r 'in'
@@ -150,7 +150,7 @@ ext/tokenizer/tokenizer_data.c    |    4 +-
 5 files changed, 904 insertions(+), 872 deletions(-)
 ```
 
-`` zend_language_scanner.c`` 内容的变更是　re2C 重新生成的 lexer。因为它包含了行号信息，每个对 lexer 的改变都会产生巨大的不同。所以不用担心;)
+`` zend_language_scanner.c`` 内容的变更是 re2C 重新生成的 lexer。因为它包含了行号信息，每个对 lexer 的改变都会产生巨大的不同。所以不用担心;)
 
 #### Conclusion
 
