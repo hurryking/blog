@@ -156,6 +156,8 @@ ext/tokenizer/tokenizer_data.c    |    4 +-
 
 未完待续
 
+[原文链接](http://nikic.github.io/2012/07/27/How-to-add-new-syntactic-features-to-PHP.html#the-life-of-a-php-script)
+
 > 沧海一声笑 
 滔滔两岸潮
 浮沉随浪 
