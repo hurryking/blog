@@ -89,7 +89,7 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 
 如你所见原始代码被切分成具有语义的　token。处理过程被称为符号化，扫描和词法解析的实现在　``Zend`` 目录下的 ``zend_language_scanner.l`` 文件。
 
-如果你打开文件向下滚动到差不多　1000 行(**译者注: php8.0.0在1261行**)，你会发现大量的　token 定义语句像下面这样:
+如果你打开文件向下滚动到差不多 1000 行(**译者注: php 8.0.0 在 1261 行**)，你会发现大量的 token 定义语句像下面这样:
 
 ```
 <ST_IN_SCRIPTING>"exit" {
@@ -108,7 +108,7 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
     zendlval->type = IS_STRING;
 ```
 
-``{LABEL}`` 匹配一个　PHP 标识(可以被定义为``[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*``)，代码返回　token ``T_STRING``。另外它复制　token 的文本到　``zendlval``。所以如果　lexer 遇到一个标识像 ``FooBarClass``，它将设置 ``FooBarClass`` 作为lval。字符串，数字和变量名称也一样。
+``{LABEL}`` 匹配一个 PHP 标识(可以被定义为``[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*``)，代码返回　token ``T_STRING``。另外它复制　token 的文本到　``zendlval``。所以如果　lexer 遇到一个标识像 ``FooBarClass``，它将设置 ``FooBarClass`` 作为lval。字符串，数字和变量名称也一样。
 
 幸运的是 ``in`` 操作符并不需要深层次的　lexer 知识。我们只需要添加以下代码段到文件中(与上面的 ``exit``　类似):
 
