@@ -153,6 +153,64 @@ ext/tokenizer/tokenizer_data.c    |    4 +-
 
 `` zend_language_scanner.c`` 内容的变更是 re2C 重新生成的 lexer。因为它包含了行号信息，每个对 lexer 的改变都会产生巨大的不同。所以不用担心;)
 
+#### 解析和执行
+
+目前为止源码已经被分解成有含义的 token，PHP已经可以识别更大的结构像"this is an ``if`` block"或者"you are defining function here"。这个过程被称为解析，规则被定义在 ``zend_language_parser.y`` 文件中。这只是一个定义文件，真正的解析器还是由　bison　生成的。
+
+为了了解解析器的定义是如何运行的，我们来看个例子:
+
+```
+class_statement:
+        variable_modifiers { CG(access_type) = Z_LVAL($1.u.constant); } class_variable_declaration ';'
+    |   class_constant_declaration ';'
+    |   trait_use_statement
+    |   method_modifiers function is_reference T_STRING { zend_do_begin_function_declaration(&$2, &$4, 1, $3.op_type, &$1 TSRMLS_CC); } '('
+           parameter_list ')' method_body { zend_do_abstract_method(&$4, &$1, &$9 TSRMLS_CC); zend_do_end_function_declaration(&$2 TSRMLS_CC); }
+;
+```
+
+我们把花括号中的内容去掉，剩下的内容如下:
+
+```
+class_statement:
+        variable_modifiers class_variable_declaration ';'
+    |   class_constant_declaration ';'
+    |   trait_use_statement
+    |   method_modifiers function is_reference T_STRING '(' parameter_list ')' method_body
+;
+```
+
+你可以这样解读:
+```
+A class statement is
+        a variable declaration (with access modifier)
+    or  a class constant declaration
+    or  a trait use statement
+    or  a method (with method modifier, optional return-by-ref, method name, parameter list and method body)
+```
+
+想知道什么是“methid modifer”，你需要去看　```method_modifier``` 的定义。这就相当直白了。
+
+为了让解析器支持 ```in```，我们需要把 ```expr T_IN expr``` 规则加到　```expr_without_variable```　里面:
+
+```
+expr_without_variable:
+    ...
+    |   expr T_IN expr
+    ...
+;
+```
+
+如果你运行 ```make -j4```，bison 会尝试重新构建解析器，但是会报以下的错误:
+
+```
+conflicts: 87 shift/reduce
+/some/path/php-src/Zend/zend_language_parser.y: expected 3 shift/reduce conflicts
+make: *** [/some/path/php-src/Zend/zend_language_parser.c] Error 1
+```
+
+shift/reduce 意思是解析器在某些情况下不知道怎么去做。PHP 语法有 3 个　shift/reduce 自相矛盾的冲突。其余的 84 个冲突是因为新规则造成的。　
+　
 
 #### Conclusion
 
