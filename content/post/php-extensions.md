@@ -38,7 +38,7 @@ $ sudo apt-get install re2c
 $ sudo apt-get install bison
 ``` 
 
-接下来，从 git 上克隆 php-src　并进行编译:
+接下来，从 git 上克隆 php-src 并进行编译:
 
 ```
 // 获取源码
