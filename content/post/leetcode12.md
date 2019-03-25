@@ -67,7 +67,7 @@ class Solution:
             self.dfs(i+1, path+[nums[i]], nums, res)
 ```
 
-![subset](https://hurryking.github.io/static/img/SubSet.png)
+![subset](https://hurryking.github.io/img/SubSet.png)
 
 还有一种位操作的解法，在[what is power set](https://www.mathsisfun.com/sets/power-set.html)里有提到位表示的部分，下篇补充下。
 
