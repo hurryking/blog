@@ -1,5 +1,5 @@
 ---
-title: "如何给　PHP 添加新特性"
+title: "如何给 PHP 添加新特性"
 date: 2019-03-24T15:32:28+08:00
 archives: "2019"
 tags: ['php']
@@ -76,7 +76,7 @@ $ sapi/cli/php -r 'echo "Hallo World!";'
 
 #### 符号化
 
-第一阶段 PHP 读取源代码，把源码切分成更小的 “token” 单元。举个例子```<?php echo "Hello World!";```会被拆解成下面的 token:
+第一阶段 PHP 读取源代码，把源码切分成更小的 “token” 单元。举个例子 ```<?php echo "Hello World!";``` 会被拆解成下面的 token:
 
 ```
 T_OPEN_TAG (<?php )
@@ -99,6 +99,7 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 ```
 
 上述代码的意思很明显是: 如果在源代码中遇到了 ```exit``` ，lexer 应该标记它为 ```T_EXIT```。```<``` 和　```>```　中间的内容是文本应该被匹配的状态。
+
 ```ST_IN_SCRIPTING``` 是对　PHP　源码来说是正常状态。还有一些其他的状态像 ```ST_DOUBLE_QUOTE``` (在双引号中间)，```ST_HEREDOC``` (在　heredoc 字符串中间)，等等。
 
 另一个可以在扫描期间做的是指定一个“语义”值(也可以称为"lower case" 或者简称"lval")。下面是例子:
@@ -134,6 +135,7 @@ $ sapi/cli/php -r 'in'
 ```
 
 这将会给出一个解析错误:
+
 ```
 Parse error: syntax error, unexpected 'in' (T_IN) in Command line code on line 1
 ```
@@ -181,6 +183,7 @@ class_statement:
 ```
 
 你可以这样解读:
+
 ```
 A class statement is
         a variable declaration (with access modifier)
@@ -268,6 +271,7 @@ expr T_IN expr { zend_do_binary_op(ZEND_IN, &$$, &$1, &$3 TSRMLS_CC); }
 编译指令在　```zend_compole.c``` 中定义(里面带有 zend_compile.h 头文件)。 ```zend_do_binary_op``` 定义如下:
 
 ```
+
 void zend_do_binary_op(zend_uchar op, znode *result, const znode *op1, const znode *op2 TSRMLS_DC)
 {
     zend_op *opline = get_next_op(CG(active_op_array) TSRMLS_CC);
@@ -302,7 +306,6 @@ struct _zend_op {
     zend_uchar result_type;
 };
 ```
-
 
 接下来我们仔细看下这些操作码(在 zend_compile.h):
 
