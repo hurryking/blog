@@ -15,7 +15,7 @@ author: Mr King
 
 这篇文章假设你已经掌握了一些 C 的基本知识，并且了解 PHP 的一些基本概念(像 zvals 结构体)。如果你不具备这些条件，建议先去了解一下。
 
-我将使用你可能从其他语言获知的 ``in`` 运算符作为一个例子。它表现如下:
+我将使用你可能从其他语言获知的 ```in``` 运算符作为一个例子。它表现如下:
 
 ```
 $words = ['hello', 'world', 'foo', 'bar'];
@@ -28,7 +28,7 @@ var_dump('PHP' in $string);    // true
 var_dump('Python' in $string); // false
 ```
 
-基本上来说，``in`` 操作符和 ``in_array`` 函数在数组中的使用一样(但是没有 needle/haystack 问题)，和字符函数 ``false != strpos($str2, $str1)`` 也类似。
+基本上来说，```in``` 操作符和 ```in_array``` 函数在数组中的使用一样(但是没有 needle/haystack 问题)，和字符函数 ```false != strpos($str2, $str1)``` 也类似。
 
 #### 准备工作
 
@@ -55,7 +55,7 @@ $ ./configure --disable-all --enable-debug --enable-maintainer-zts
 $ make -j4
 ``` 
 
-PHP 二进制包应该在 ``sapi/cli/php``。你可以尝试以下操作:
+PHP 二进制包应该在 ```sapi/cli/php```。你可以尝试以下操作:
 
 ```
 $ sapi/cli/php -v
@@ -72,7 +72,7 @@ $ sapi/cli/php -r 'echo "Hallo World!";'
 2. Parsing & Compilation(解析和编译)
 3. Execute(运行)
 
-接下来我会详细解释每个阶段都在做什么，如何实现以及我们需要修改什么地方才能让 ``in`` 操作符运行。
+接下来我会详细解释每个阶段都在做什么，如何实现以及我们需要修改什么地方才能让 ```in``` 操作符运行。
 
 #### 符号化
 
@@ -88,7 +88,7 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 
 (**译者注: 这里是官方的 [token表](http://php.net/manual/zh/tokens.php)**)
 
-如你所见原始代码被切分成具有语义的　token。处理过程被称为符号化，扫描和词法解析的实现在　``Zend`` 目录下的 ``zend_language_scanner.l`` 文件。
+如你所见原始代码被切分成具有语义的　token。处理过程被称为符号化，扫描和词法解析的实现在　```Zend``` 目录下的 ```zend_language_scanner.l``` 文件。
 
 如果你打开文件向下滚动到差不多 1000 行(**译者注: php 8.0.0 在 1261 行**)，你会发现大量的 token 定义语句像下面这样:
 
@@ -98,8 +98,8 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 }
 ```
 
-上述代码的意思很明显是: 如果在源代码中遇到了 ``exit`` ，lexer 应该标记它为 ``T_EXIT``。``<`` 和　``>``　中间的内容是文本应该被匹配的状态。
-``ST_IN_SCRIPTING`` 是对　PHP　源码来说是正常状态。还有一些其他的状态像 ``ST_DOUBLE_QUOTE`` (在双引号中间)，``ST_HEREDOC`` (在　heredoc 字符串中间)，等等。
+上述代码的意思很明显是: 如果在源代码中遇到了 ```exit``` ，lexer 应该标记它为 ```T_EXIT```。```<``` 和　```>```　中间的内容是文本应该被匹配的状态。
+```ST_IN_SCRIPTING``` 是对　PHP　源码来说是正常状态。还有一些其他的状态像 ```ST_DOUBLE_QUOTE``` (在双引号中间)，```ST_HEREDOC``` (在　heredoc 字符串中间)，等等。
 
 另一个可以在扫描期间做的是指定一个“语义”值(也可以称为"lower case" 或者简称"lval")。下面是例子:
 
@@ -109,9 +109,9 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
     zendlval->type = IS_STRING;
 ```
 
-``{LABEL}`` 匹配一个 PHP 标识(可以被定义为``[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*``)，代码返回　token ``T_STRING``。另外它复制　token 的文本到　``zendlval``。所以如果　lexer 遇到一个标识像 ``FooBarClass``，它将设置 ``FooBarClass`` 作为lval。字符串，数字和变量名称也一样。
+```{LABEL}``` 匹配一个 PHP 标识(可以被定义为```[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*```)，代码返回　token ```T_STRING```。另外它复制　token 的文本到　```zendlval```。所以如果　lexer 遇到一个标识像 ```FooBarClass```，它将设置 ```FooBarClass``` 作为lval。字符串，数字和变量名称也一样。
 
-幸运的是 ``in`` 操作符并不需要深层次的 lexer 知识。我们只需要添加以下代码段到文件中(与上面的 ``exit``　类似):
+幸运的是 ```in``` 操作符并不需要深层次的 lexer 知识。我们只需要添加以下代码段到文件中(与上面的 ```exit```　类似):
 
 ```
 <ST_IN_SCRIPTING>"in" {
@@ -121,13 +121,13 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 
 (**译者注: 新版已经不是上面的写法了**)
 
-除此之外我们需要让引擎知道我们添加了一个新的 token。打开 ``zend_language_parser.y`` 加入下面的行在它的类似代码中(在定义操作符的代码段中):
+除此之外我们需要让引擎知道我们添加了一个新的 token。打开 ```zend_language_parser.y``` 加入下面的行在它的类似代码中(在定义操作符的代码段中):
 
 ```
 %token T_IN "in (T_IN)"
 ```
 
-现在你应该用 ``make -j4`` 重新编译下　PHP (必须在顶级目录 ``php-src`` 中执行，不是 ``Zend/``)。这会产生一个新由 re2c　生成的　lexer 并编译它。为了测试我们的修改是否生效。需要执行以下命令:
+现在你应该用 ```make -j4`` 重新编译下　PHP (必须在顶级目录 ```php-src`` 中执行，不是 ```Zend/``)。这会产生一个新由 re2c　生成的　lexer 并编译它。为了测试我们的修改是否生效。需要执行以下命令:
 
 ```
 $ sapi/cli/php -r 'in'
@@ -138,7 +138,7 @@ $ sapi/cli/php -r 'in'
 Parse error: syntax error, unexpected 'in' (T_IN) in Command line code on line 1
 ```
 
-我们需要做的最后一件事就是使用 [Tokenizer 扩展](https://secure.php.net/tokenizer)　重新生成数据，你需要使用 ``cd`` 进入 ``ext/tokenizer`` 目录并且执行 ``./tokenizer_data_gen.sh``。
+我们需要做的最后一件事就是使用 [Tokenizer 扩展](https://secure.php.net/tokenizer)　重新生成数据，你需要使用 ```cd``` 进入 ```ext/tokenizer``` 目录并且执行 ```./tokenizer_data_gen.sh```。
 
 如果你运行 git diff --stat，你会看见下面的信息:
 
@@ -155,7 +155,7 @@ ext/tokenizer/tokenizer_data.c    |    4 +-
 
 #### 解析和编译
 
-目前为止源码已经被分解成有含义的 token，PHP已经可以识别更大的结构像"this is an ``if`` block"或者"you are defining function here"。这个过程被称为解析，规则被定义在 ``zend_language_parser.y`` 文件中。这只是一个定义文件，真正的解析器还是由　bison　生成的。
+目前为止源码已经被分解成有含义的 token，PHP已经可以识别更大的结构像"this is an ```if``` block"或者"you are defining function here"。这个过程被称为解析，规则被定义在 ```zend_language_parser.y``` 文件中。这只是一个定义文件，真正的解析器还是由　bison　生成的。
 
 为了了解解析器的定义是如何运行的，我们来看个例子:
 
@@ -261,11 +261,13 @@ Zend/zend_language_scanner.l(876) :  Freeing 0xB777E7AC (4 bytes), script=-
 expr T_IN expr { zend_do_binary_op(ZEND_IN, &$$, &$1, &$3 TSRMLS_CC); }
 ```
 
-花括号里的内容被成为语义动作，在解析器匹配到固定规则的时候运行。```$$```，```$1``` 和　```$3```　这些看起来奇奇怪怪的东西是节点。```$1``` 关联第一个　```expr```，```$3``` 关联第二个 ```expr```(```$3```　是规则里的第三个元素)，```$$``` 是存储结果的节点
+花括号里的内容被成为语义动作，在解析器匹配到固定规则的时候运行。```$$```，```$1``` 和　```$3```　这些看起来奇奇怪怪的东西是节点。```$1``` 关联第一个　```expr```，```$3``` 关联第二个 ```expr```(```$3```　是规则里的第三个元素)，```$$``` 是存储结果的节点。
+
 
 ```zend_do_binary_op``` 是一个编译器指令。它告诉编译器发行　```ZEND_IN``` 操作指令，指令将会把 ```$1``` 和　```$3``` 作为操作数，将计算结果存入 ```$$```　中。
 
 编译指令在　```zend_compole.c``` 中定义(里面带有 zend_compile.h 头文件)。 ```zend_do_binary_op``` 看起来如下:
+
 
 ```
 void zend_do_binary_op(zend_uchar op, znode *result, const znode *op1, const znode *op2 TSRMLS_DC)
@@ -279,6 +281,7 @@ void zend_do_binary_op(zend_uchar op, znode *result, const znode *op1, const zno
     SET_NODE(opline->op2, op2);
     GET_NODE(result, opline->result);
 }
+
 ```
 
 代码应该比较好理解，下节我们会把它放到一个有上下文的环境中。最后提醒一件事，在大多数情况下当你想要添加自己的语法的时候，你必须添加自己的 ```_do_*``` 方法。添加一个二进制操作符是为数不多的情况中的一个。如果你必须要加一个新的  ```_do_*``` 函数，先看看现存的函数能不能满足你的需求。它们中的大部分都挺简单的。
