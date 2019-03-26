@@ -153,7 +153,7 @@ ext/tokenizer/tokenizer_data.c    |    4 +-
 
 `` zend_language_scanner.c`` 内容的变更是 re2C 重新生成的 lexer。因为它包含了行号信息，每个对 lexer 的改变都会产生巨大的不同。所以不用担心;)
 
-#### 解析和执行
+#### 解析和编译
 
 目前为止源码已经被分解成有含义的 token，PHP已经可以识别更大的结构像"this is an ``if`` block"或者"you are defining function here"。这个过程被称为解析，规则被定义在 ``zend_language_parser.y`` 文件中。这只是一个定义文件，真正的解析器还是由　bison　生成的。
 
@@ -261,7 +261,98 @@ Zend/zend_language_scanner.l(876) :  Freeing 0xB777E7AC (4 bytes), script=-
 expr T_IN expr { zend_do_binary_op(ZEND_IN, &$$, &$1, &$3 TSRMLS_CC); }
 ```
 
+花括号里的内容被成为语义动作，在解析器匹配到固定规则的时候运行。```$$```，```$1``` 和　```$3```　这些看起来奇奇怪怪的东西是节点。```$1``` 关联第一个　```expr```，```$3``` 关联第二个 ```expr```(```$3```　是规则里的第三个元素)，```$$``` 是存储结果的节点
 
+```zend_do_binary_op``` 是一个编译器指令。它告诉编译器发行　```ZEND_IN``` 操作指令，指令将会把 ```$1``` 和　```$3``` 作为操作数，将计算结果存入 ```$$```　中。
+
+编译指令在　```zend_compole.c``` 中定义(里面带有 zend_compile.h 头文件)。 ```zend_do_binary_op``` 看起来如下:
+
+```
+void zend_do_binary_op(zend_uchar op, znode *result, const znode *op1, const znode *op2 TSRMLS_DC)
+{
+    zend_op *opline = get_next_op(CG(active_op_array) TSRMLS_CC);
+
+    opline->opcode = op;
+    opline->result_type = IS_TMP_VAR;
+    opline->result.var = get_temporary_variable(CG(active_op_array));
+    SET_NODE(opline->op1, op1);
+    SET_NODE(opline->op2, op2);
+    GET_NODE(result, opline->result);
+}
+```
+
+代码应该比较好理解，下节我们会把它放到一个有上下文的环境中。最后提醒一件事，在大多数情况下当你想要添加自己的语法的时候，你必须添加自己的 ```_do_*``` 方法。添加一个二进制操作符是为数不多的情况中的一个。如果你必须要加一个新的  ```_do_*``` 函数，先看看现存的函数能不能满足你的需求。它们中的大部分都挺简单的。
+
+#### 执行
+
+在上节我提到了编译器在发行操作码。接下来我们近距离看下这些操作码(看 zend_compile.h):
+
+```
+struct _zend_op {
+    opcode_handler_t handler;
+    znode_op op1;
+    znode_op op2;
+    znode_op result;
+    ulong extended_value;
+    uint lineno;
+    zend_uchar opcode;
+    zend_uchar op1_type;
+    zend_uchar op2_type;
+    zend_uchar result_type;
+};
+```
+
+
+接下来我们仔细看下这些操作码(在 zend_compile.h):
+
+```
+struct _zend_op {
+    opcode_handler_t handler;
+    znode_op op1;
+    znode_op op2;
+    znode_op result;
+    ulong extended_value;
+    uint lineno;
+    zend_uchar opcode;
+    zend_uchar op1_type;
+    zend_uchar op2_type;
+    zend_uchar result_type;
+};
+```
+
+对上述结构一个简短的介绍:
+* ```opcode```: 这是一个真正被执行的操作。可以用 ```ZEND_ADD``` 或者 ```ZEND_SUB``` 当例子。
+* ```op1```，```op2```，　```result```: 每个操作最多可以拥有两个操作数(它可以只选择其中用一个或者一会也不用)和一个结果节点。```op1_type```，```op2_type``` 和 ```result_type``` 决定了节点的类型。稍后我们会去了解节点和节点的类型。
+* ```extended_value```: 扩展值用来存储标记和一些别的整型值。比如说变量获取指定用它存储变量的类型(像 ```ZEND_FETCH_LOCAL``` 或者 ```ZEND_FETCH_GLOBAL```)
+* ```handler```: 用来优化操作码的执行，它存储处理函数与操作码和操作数类型相关。
+这是自动确定的，因此不必在编译代码中设置。
+* ```lineno```: 这就不多说了..
+
+这里有五种基本的类型可以详细解释 ```*_type``` 属性:
+
+* ```IS_TMP_VAR```: 临时变量，通常用在一些表达式的结果像 ```$foor + $bar```上。临时变量不能共享，所以不能使用引用计数。它们的生命周期很短，所以在使用完成后马上被销毁。临时变量通常被写成 ```~n```，```~0``` 表示第一个临时变量，```~1``` 表示第二个，以此类推。
+* ```IS_CV```: 编译变量。用来存储哈希表查询结果，PHP 缓存简单变量的位置像 ```$foo``` 在数组中的地址(C 数组)。此外，编译变量允许 PHP 完全优化哈希表。编译变量使用 ```!n``` 表示(```n``` 表示编译变量数组的偏移量)
+* ```IS_VAR```: 只是一些简单的变量可以被转换为编译变量。
+所有其他类型的变量访问，如 ```$foo['bar']``` 或 ```$foo->bar``` 返回一个 ```IS_VAR``` 变量。它基本上就是一个正常的 zval (有引用计数和其他的所有属性)。Vars 这样 ```$n``` 表示。
+* ```IS_CONST```: 常量在代码中的表示比较随意。举个例子，```"foo"``` 或者 ```3.141``` 都是 ```IS_CONST``` 类型。常量允许更近一步的优化，像复用 zvals，预先计算哈希值。
+
+* ```id_UNUSED```: 操作数没有被使用。
+
+与此相关的 ```znode_op``` 的结构:
+
+```
+typedef union _znode_op {
+    zend_uint      constant;
+    zend_uint      var;
+    zend_uint      num;
+    zend_ulong     hash;
+    zend_uint      opline_num;
+    zend_op       *jmp_addr;
+    zval          *zv;
+    zend_literal  *literal;
+    void          *ptr;
+} znode_op;
+```
 
 #### Conclusion
 
