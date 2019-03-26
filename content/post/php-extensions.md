@@ -209,8 +209,59 @@ conflicts: 87 shift/reduce
 make: *** [/some/path/php-src/Zend/zend_language_parser.c] Error 1
 ```
 
-shift/reduce 意思是解析器在某些情况下不知道怎么去做。PHP 语法有 3 个　shift/reduce 自相矛盾的冲突。其余的 84 个冲突是因为新规则造成的。　
-　
+shift/reduce 意思是解析器在某些情况下不知道怎么去做。PHP 语法有 3 个　shift/reduce 自相矛盾的冲突(意料之中，因为类似　elseif/else 的歧义)。其余的 84 个冲突是因为新规则造成的。　
+
+原因是我们没有规定 ```in``` 如何在其他运算符之间运行。举个例子:
+
+```
+// if you write
+$foo in $bar && $someOtherCond
+// should PHP interpret this as
+($foo in $bar) && $someOtherCond
+// or as
+$foo in ($bar && $someOtherCond)
+```
+
+上述被成为”运算符的优先级“。还有一个相关的概念是”运算符的关联性“，它决定了你写```$foo in $bar in $baz```时会发生什么。
+
+为了解决　shift/reduce 的冲突，你需要在解析器的开始处找到下面的行并把 ```T_IN``` 追加在这行后面
+
+```
+%nonassoc '<' T_IS_SMALLER_OR_EQUAL '>' T_IS_GREATER_OR_EQUAL
+```
+
+这意味着　```in``` 和　```<``` 比较运算符有相同的优先级，而且没有关联性。下面是 ```in``` 如何运行的一些示例:
+
+```
+$foo in $bar && $someOtherCond
+// 被解释为
+($foo in $bar) && $someOtherCond
+// because `&&` has lower precedence than `in`
+
+$foo in ['abc', 'def'] + ['ghi', 'jkl']
+// 被解释为
+$foo in (['abc', 'def'] + ['ghi', 'jkl'])
+// 因为 `+` 的优先级比 `in`　高
+
+$foo in $bar in $baz
+// 会抛出解析异常，因为 `in` 是无关联性的
+```
+
+如果运行 ```make -j4```，会发现报错没了。然后你可以尝试运行 ```sapi/cli/php -r '"foo" in "bar";'```。这什么也不会做，除了打印除一个内存泄漏信息:
+
+```
+[Thu Jul 26 22:33:14 2012]  Script:  '-'
+Zend/zend_language_scanner.l(876) :  Freeing 0xB777E7AC (4 bytes), script=-
+=== Total 1 memory leaks detected ===
+```
+
+预料之中，因为到目前为止我们还没有告诉解析器匹配到 ```in``` 的时候该怎么做。这就是花括号里的内容的作用(**译者注: 还记得上面讲解析器定义的时候简化的花括号吗**)，接下来我们用下面的内容替换掉 ```expr T_IN expr```:
+
+```
+expr T_IN expr { zend_do_binary_op(ZEND_IN, &$$, &$1, &$3 TSRMLS_CC); }
+```
+
+
 
 #### Conclusion
 
