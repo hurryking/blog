@@ -127,7 +127,7 @@ T_CONSTANT_ENCAPSED_STRING ("Hello World!")
 %token T_IN "in (T_IN)"
 ```
 
-现在你应该用 ```make -j4`` 重新编译下　PHP (必须在顶级目录 ```php-src`` 中执行，不是 ```Zend/``)。这会产生一个新由 re2c　生成的　lexer 并编译它。为了测试我们的修改是否生效。需要执行以下命令:
+现在你应该用 ```make -j4``` 重新编译下　PHP (必须在顶级目录 ```php-src``` 中执行，不是 ```Zend/```)。这会产生一个新由 re2c　生成的　lexer 并编译它。为了测试我们的修改是否生效。需要执行以下命令:
 
 ```
 $ sapi/cli/php -r 'in'
@@ -151,7 +151,7 @@ ext/tokenizer/tokenizer_data.c    |    4 +-
 5 files changed, 904 insertions(+), 872 deletions(-)
 ```
 
-`` zend_language_scanner.c`` 内容的变更是 re2C 重新生成的 lexer。因为它包含了行号信息，每个对 lexer 的改变都会产生巨大的不同。所以不用担心;)
+```zend_language_scanner.c``` 内容的变更是 re2C 重新生成的 lexer。因为它包含了行号信息，每个对 lexer 的改变都会产生巨大的不同。所以不用担心;)
 
 #### 解析和编译
 
@@ -263,11 +263,9 @@ expr T_IN expr { zend_do_binary_op(ZEND_IN, &$$, &$1, &$3 TSRMLS_CC); }
 
 花括号里的内容被成为语义动作，在解析器匹配到固定规则的时候运行。```$$```，```$1``` 和　```$3```　这些看起来奇奇怪怪的东西是节点。```$1``` 关联第一个　```expr```，```$3``` 关联第二个 ```expr```(```$3```　是规则里的第三个元素)，```$$``` 是存储结果的节点。
 
-
 ```zend_do_binary_op``` 是一个编译器指令。它告诉编译器发行　```ZEND_IN``` 操作指令，指令将会把 ```$1``` 和　```$3``` 作为操作数，将计算结果存入 ```$$```　中。
 
-编译指令在　```zend_compole.c``` 中定义(里面带有 zend_compile.h 头文件)。 ```zend_do_binary_op``` 看起来如下:
-
+编译指令在　```zend_compole.c``` 中定义(里面带有 zend_compile.h 头文件)。 ```zend_do_binary_op``` 定义如下:
 
 ```
 void zend_do_binary_op(zend_uchar op, znode *result, const znode *op1, const znode *op2 TSRMLS_DC)
