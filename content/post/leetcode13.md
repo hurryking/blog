@@ -2,7 +2,7 @@
 title: "Leetcode13"
 date: 2019-03-27T00:46:43+08:00
 archives: "2019"
-tags: ['leetcode13']
+tags: ['leetcode']
 author: John SMITH
 ---
 
@@ -50,6 +50,26 @@ class Solution(object):
         return True
 ```
 
+另一种解法 当前所在位置大于这个位置前的所有元素所能跳到的最大位置，证明就无法跳过当前位置，返回False
+
+```
+class Solution(object):
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        m = 0
+        for i, n in enumerate(nums):
+            if i > m:
+                return False
+            m = max(m, i+n)
+        
+        return True
+```
+
 ### 结束语
+
+当你开始给某个情况写特殊判断的时候，代码就开始变坏了，应该让所有的输入走统一的逻辑。<代码大全> 里有提到过这条规则，很受用。
 
 > There is no't a best way, only a better way.
