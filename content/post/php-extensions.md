@@ -416,10 +416,9 @@ ZEND_VM_HANDLER(1, ZEND_ADD, CONST|TMP|VAR|CV, CONST|TMP|VAR|CV)
 
 你可能会注意到这个文件里的东西大部分都是 `大写` 的。因为 `zend_vm_def.h` 只是一个定义文件。真正的 ZEND VM 根据它生成，最终存储在 `zend_vm_execute.h`(巨...大的一个文件)。PHP 有三个不同的虚拟机类型，`CALL`(默认) `GOTO` `SWITCH`。因为他们有不同的实现细节，定义文件使用了大量的伪宏(像 `USE_OPLINE` )，它们最终会被具体实现替代掉。
 
-进一步说，生成的 VM 为所有可能的操作数类型的组合创建专门的实现。所以最后不会只有一个 ZEND_ADD 函数，会有不同的函数实现，像 `ZEND_ADD_CONST_CONST`，`ZEND_ADD_CONST_TMP`，`ZEND_ADD_CONST_VAR`…
+此外，生成的 VM 为所有可能的操作数类型的组合创建专门的实现。所以最后不会只有一个 ZEND_ADD 函数，会有不同的函数实现，像 `ZEND_ADD_CONST_CONST`，`ZEND_ADD_CONST_TMP`，`ZEND_ADD_CONST_VAR`…
 
-Now, in order to implement the ZEND_IN opcode, you should add a new opcode definition skeleton at the end of the zend_vm_def.h file:
-现在为了实现 `ZEND_IN` 操作码，你应该在 `zend_vm_def.h` 文件结尾处新增一个操作码定义框架。
+现在为了实现 `ZEND_IN` 操作码，你应该在 `zend_vm_def.h` 文件结尾处新增一个操作码定义框架:
 
 ```
 // 159 是我这里下个没有被使用的操作码编号。 或许你需要选择一个更大的数字。
@@ -477,9 +476,94 @@ if (Z_TYPE_P(op2) == IS_STRING) {
 }
 ```
 
-This function may either have to create a new zval, or not. That’s why we pass op1_copy and use_copy into it. If the function copied the value we just put it into the op1 variable (so we don’t have to deal with two different variables everywhere). Furthermore the copy has to be freed at the end (what the last three lines do).
-
 最难的部分是把 needle 转换成字符串，这里使用了 `zend_make_printable_zval`。这个函数也许会创建一个新的 zval。这就是我们传 `op1_copy` 和 `use_copy` 的原因。
+如果函数复制了值，我们只需将它放入op1变量中（所以我们不必到处处理两个不同的变量）。此外，必须在最后释放复制的值(最后三行的内容)。
+
+如果你添加了上面的代码到`/* TODO */`所在的位置，再运行 `zend_vm_gen.php` 然后重新编译 `make -j4`，你已经完成了 `in` 操作符一半的工作:
+
+```
+$ sapi/cli/php -r 'var_dump("foo" in "bar");'
+bool(false)
+$ sapi/cli/php -r 'var_dump("foo" in "foobar");'
+bool(true)
+$ sapi/cli/php -r 'var_dump("foo" in "hallo foo world");'
+bool(true)
+$ sapi/cli/php -r 'var_dump(2 in "123");'
+bool(true)
+$ sapi/cli/php -r 'var_dump(5 in "123");'
+bool(false)
+$ sapi/cli/php -r 'var_dump("" in "test");'
+bool(true)
+```
+
+接下来我们进行实现数组的部分:
+
+```
+else if (Z_TYPE_P(op2) == IS_ARRAY) {
+    HashPosition pos;
+    zval **value;
+
+    /* Start under the assumption that the value isn't contained */
+    ZVAL_FALSE(&EX_T(opline->result.var).tmp_var);
+
+    /* Iterate through the array */
+    zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(op2), &pos);
+    while (zend_hash_get_current_data_ex(Z_ARRVAL_P(op2), (void **) &value, &pos) == SUCCESS) {
+        zval result;
+
+        /* Compare values using == */
+        if (is_equal_function(&result, op1, *value TSRMLS_CC) == SUCCESS && Z_LVAL(result)) {
+            ZVAL_TRUE(&EX_T(opline->result.var).tmp_var);
+            break;
+        }
+
+        zend_hash_move_forward_ex(Z_ARRVAL_P(op2), &pos);
+    }
+}
+```
+
+Here the haystack is simply traversed and every values is checked against the needle. We compare using `==`. To compare using `===` one would have to replace `is_equal_function with` is_identical_function.
+
+After rerunning `zend_vm_gen.php` and `make -j4` the in operator should be fully operational:
+
+```
+$ sapi/cli/php -r 'var_dump("test" in []);'
+bool(false)
+$ sapi/cli/php -r 'var_dump("test" in ["foo", "bar"]);'
+bool(false)
+$ sapi/cli/php -r 'var_dump("test" in ["foo", "test", "bar"]);'
+bool(true)
+$ sapi/cli/php -r 'var_dump(0 in ["foo"]);'
+bool(true) // because we're comparing using ==
+```
+
+One last thing to consider is what should happen when the second operator is neither array nor string. I’ll just take the easy way out for this: Throw a warning and return false:
+
+```
+else {
+    zend_error(E_WARNING, "Right operand of in has to be either string or array");
+    ZVAL_FALSE(&EX_T(opline->result.var).tmp_var);
+}
+```
+
+After rebuilding and recompiling the VM:
+
+```
+$ sapi/cli/php -r 'var_dump("foo" in new stdClass);'
+
+Warning: Right operand of in has to be either string or array in Command line code on line 1
+bool(false)
+```
+
+### Finishing thoughts
+
+I hope the above helped you understand how to add new features to PHP and what the Zend Engine does when it runs a PHP script. But even though the article is quite long I covered only small parts of the whole system. So when you want to do modifications to the ZE the largest part of the job will be reading the existing code. The cross-reference tool helps a lot when browsing through the PHP source code. Apart from that you can always ask questions in the #php.pecl room on efnet.
+
+After you created an implementation for whatever feature you want, the next step is bringing it up on the [internals mailing list](https://www.php.net/mailing-lists.php). People will then look at your feature and decide whether or not it should go in.
+
+Oh, and one last thing: The in operator here was just an example. I don’t plan on proposing it for inclusion ;)
+
+As always, if you have any further comments or questions, please leave them below.
 
 #### Conclusion
 
