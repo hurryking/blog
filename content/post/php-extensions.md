@@ -307,23 +307,6 @@ struct _zend_op {
 };
 ```
 
-接下来我们仔细看下这些操作码(在 zend_compile.h):
-
-```
-struct _zend_op {
-    opcode_handler_t handler;
-    znode_op op1;
-    znode_op op2;
-    znode_op result;
-    ulong extended_value;
-    uint lineno;
-    zend_uchar opcode;
-    zend_uchar op1_type;
-    zend_uchar op2_type;
-    zend_uchar result_type;
-};
-```
-
 对上述结构一个简短的介绍:
 
 * `opcode`: 这是一个真正被执行的操作。可以用 `ZEND_ADD` 或者 `ZEND_SUB` 当例子。
@@ -365,6 +348,138 @@ typedef union _znode_op {
     void          *ptr;
 } znode_op;
 ```
+
+我们可以看到节点就是一个联合体。它可以包含上述元素中的一个(只有一个)，具体哪个取决于上下文。比如 `zv` 用来存储 `IS_CONST` zvals，`var` 用来存储 `IS_CV`，`IS_VAR` 和 `IS_TMP_VAR` 变量。剩下的使用在不同的特殊环境下。例如 `jmp_addr` 和 `JMP*` 指令结合使用(在循环和条件判断中使用)。其余都只在编译期间使用，不是在执行期间(像 `constant`)。
+
+现在我们了解了单个操作码的结构，唯一剩下的问题就是这些操作码存在什么地方: PHP 为每个函数(和文件)创建一个 `zend_op_array`，里面存储了操作码和很多其他的信息。我不想深入去讲每个部分都是干什么的，你只需要了解这个结构体存在就行了。
+
+接下来我们回到 `in` 操作符的实现！我们已经指示编译器去发行一个 `ZEND_IN` 操作码。现在我们需要定义这个操作码可以干什么。
+
+这部分在 `zend_vm_def.h` 中实现。如果你看过这个文件，你会发现里面全是下面这样的定义:
+
+```
+ZEND_VM_HANDLER(1, ZEND_ADD, CONST|TMP|VAR|CV, CONST|TMP|VAR|CV)
+{
+    USE_OPLINE
+    zend_free_op free_op1, free_op2;
+
+    SAVE_OPLINE();
+    fast_add_function(&EX_T(opline->result.var).tmp_var,
+        GET_OP1_ZVAL_PTR(BP_VAR_R),
+        GET_OP2_ZVAL_PTR(BP_VAR_R) TSRMLS_CC);
+    FREE_OP1();
+    FREE_OP2();
+    CHECK_EXCEPTION();
+    ZEND_VM_NEXT_OPCODE();
+}
+```
+
+`ZEND_IN` 操作码的定义和这个基本一样，所以我们来了解下这个定在在干什么。我会逐行解释:
+
+```
+// 头部定义个四个事情:
+//   1. 这是一个 ID 为 1 的操作码
+//   2. 这个操作码叫 ZEND_ADD
+//   3. 这个操作码接受 CONST, TMP, VAR 和 CV 作为第一个操作数
+//   4. 这个操作码接受 CONST, TMP, VAR 和 CV 作为第二个操作数
+ZEND_VM_HANDLER(1, ZEND_ADD, CONST|TMP|VAR|CV, CONST|TMP|VAR|CV)
+{
+    // USE_OPLINE 意味着我们想像 `opline` 一样操作 zend_op.
+    // 这个对所有存取操作数或者设置返回值的操作码都是必须的
+    USE_OPLINE
+    // For every operand that is accessed a free_op* variable has to be defined.
+    // 这个用来判断操作数是否需要释放.
+    zend_free_op free_op1, free_op2;
+
+    // SAVE_OPLINE() 加载 zend_op 到 `opline`。
+    // USE_OPLINE 只是声明。
+    SAVE_OPLINE();
+    // 调用 fast add 函数
+    fast_add_function(
+        // 告诉函数把结果放在 tmp_var 里
+        // EX_T 使用 ID opline->result.var 来操作临时变量
+        &EX_T(opline->result.var).tmp_var,
+        // 以读取模式获取第一个操作数 ( R 在 BP_VAR_R 的含义是读取，read 的缩写)
+        GET_OP1_ZVAL_PTR(BP_VAR_R),
+        // 以读取模式获取第二个操作数
+        GET_OP2_ZVAL_PTR(BP_VAR_R) TSRMLS_CC);
+    // 释放两个操作数 (必须的情况下)
+    FREE_OP1();
+    FREE_OP2();
+    // 检查异常。异常可能发生在任何地方，所以必须在所有操作码中检查异常。
+    // 如果有疑问，加上异常检测。
+    CHECK_EXCEPTION();
+    // 处理下一个操作码
+    ZEND_VM_NEXT_OPCODE();
+}
+```
+
+你可能会注意到这个文件里的东西大部分都是 `大写` 的。因为 `zend_vm_def.h` 只是一个定义文件。真正的 ZEND VM 根据它生成，最终存储在 `zend_vm_execute.h`(巨...大的一个文件)。PHP 有三个不同的虚拟机类型，`CALL`(默认) `GOTO` `SWITCH`。因为他们有不同的实现细节，定义文件使用了大量的伪宏(像 `USE_OPLINE` )，它们最终会被具体实现替代掉。
+
+进一步说，生成的 VM 为所有可能的操作数类型的组合创建专门的实现。所以最后不会只有一个 ZEND_ADD 函数，会有不同的函数实现，像 `ZEND_ADD_CONST_CONST`，`ZEND_ADD_CONST_TMP`，`ZEND_ADD_CONST_VAR`…
+
+Now, in order to implement the ZEND_IN opcode, you should add a new opcode definition skeleton at the end of the zend_vm_def.h file:
+现在为了实现 `ZEND_IN` 操作码，你应该在 `zend_vm_def.h` 文件结尾处新增一个操作码定义框架。
+
+```
+// 159 是我这里下个没有被使用的操作码编号。 或许你需要选择一个更大的数字。
+ZEND_VM_HANDLER(159, ZEND_IN, CONST|TMP|VAR|CV, CONST|TMP|VAR|CV)
+{
+    USE_OPLINE
+    zend_free_op free_op1, free_op2;
+    zval *op1, *op2;
+
+    SAVE_OPLINE();
+    op1 = GET_OP1_ZVAL_PTR(BP_VAR_R);
+    op2 = GET_OP2_ZVAL_PTR(BP_VAR_R);
+
+    /* TODO */
+
+    FREE_OP1();
+    FREE_OP2();
+    CHECK_EXCEPTION();
+    ZEND_VM_NEXT_OPCODE();
+}
+```
+
+上面的代码只会获取操作数然后丢弃。
+
+为了生成一个新的 VM ，你需要在 `Zend/` 目录内运行 `php_zend_vm_gen.php`。(如果它给了你一堆 /e modifier being deprecated 警告，忽略掉就行了)。运行完以后，去顶级目录运行 `make -j4` 重新编译。
+
+终于，我们能实现真正的逻辑了。我们开始写字符串类型的情况吧:
+
+```
+if (Z_TYPE_P(op2) == IS_STRING) {
+    zval op1_copy;
+    int use_copy;
+
+    // 把要 needle(要找的数据) 转换为 string 
+    zend_make_printable_zval(op1, &op1_copy, &use_copy);
+
+    if (Z_STRLEN_P(op1) == 0) {
+        /* 空的 needle 直接返回 true */
+        ZVAL_TRUE(&EX_T(opline->result.var).tmp_var);
+    } else {
+        char *found = zend_memnstr(
+            Z_STRVAL_P(op2),                  /* haystack */
+            Z_STRVAL_P(op1),                  /* needle */
+            Z_STRLEN_P(op1),                  /* needle length */
+            Z_STRVAL_P(op2) + Z_STRLEN_P(op2) /* haystack end ptr */
+        );
+
+        ZVAL_BOOL(&EX_T(opline->result.var).tmp_var, found != NULL);
+    }
+
+    /* Free copy */
+    if (use_copy) {
+        zval_dtor(&op1_copy);
+    }
+}
+```
+
+This function may either have to create a new zval, or not. That’s why we pass op1_copy and use_copy into it. If the function copied the value we just put it into the op1 variable (so we don’t have to deal with two different variables everywhere). Furthermore the copy has to be freed at the end (what the last three lines do).
+
+最难的部分是把 needle 转换成字符串，这里使用了 `zend_make_printable_zval`。这个函数也许会创建一个新的 zval。这就是我们传 `op1_copy` 和 `use_copy` 的原因。
 
 #### Conclusion
 
