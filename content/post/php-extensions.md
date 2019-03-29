@@ -9,6 +9,12 @@ author: Mr King
 
 ### 如何给 PHP 添加新的语法特性(译)
 
+**译者注: 文中的操作都是基于 PHP5.6 进行的修改，翻译这篇文章的时候 PHP7 都已经出了，有很多方法已经被遗弃，希望各位注意不要踩坑。**
+
+[原文链接](http://nikic.github.io/2012/07/27/How-to-add-new-syntactic-features-to-PHP.html#the-life-of-a-php-script)
+
+#### 正文
+
 最近有好多人问我怎么给 PHP 添加新语法特性。我仔细想了想，确实没有这方面的教程，接下来我会阐述整个流程。同时这篇文章也是对 Zend 引擎的一个简介。
 
 我提前为这篇过长的文章道歉。
@@ -522,9 +528,9 @@ else if (Z_TYPE_P(op2) == IS_ARRAY) {
 }
 ```
 
-Here the haystack is simply traversed and every values is checked against the needle. We compare using `==`. To compare using `===` one would have to replace `is_equal_function with` is_identical_function.
+这里我们简单的遍历了 haystack 中的每个值，并检查是否和 needle 相等。我们在这里使用 `==` 对比，要使用 `==` 对比的话，必须使用 `is_identical_function` 代替 `is_equal_function`:
 
-After rerunning `zend_vm_gen.php` and `make -j4` the in operator should be fully operational:
+再次运行完 `zend_vm_gen.php` 和 `make -j4` 后，`in` 操作符号就支持数组类型的操作了:
 
 ```
 $ sapi/cli/php -r 'var_dump("test" in []);'
@@ -537,7 +543,7 @@ $ sapi/cli/php -r 'var_dump(0 in ["foo"]);'
 bool(true) // because we're comparing using ==
 ```
 
-One last thing to consider is what should happen when the second operator is neither array nor string. I’ll just take the easy way out for this: Throw a warning and return false:
+最后一件需要考虑的事情是，如果第二个参数既不是数组又不是字符串我们该如何处理。这里我选择最简单的办法: 抛出一个警告并返回 false:
 
 ```
 else {
@@ -546,7 +552,7 @@ else {
 }
 ```
 
-After rebuilding and recompiling the VM:
+重新生成 VM，再编译后:
 
 ```
 $ sapi/cli/php -r 'var_dump("foo" in new stdClass);'
@@ -555,23 +561,12 @@ Warning: Right operand of in has to be either string or array in Command line co
 bool(false)
 ```
 
-### Finishing thoughts
+### 终篇想法
 
-I hope the above helped you understand how to add new features to PHP and what the Zend Engine does when it runs a PHP script. But even though the article is quite long I covered only small parts of the whole system. So when you want to do modifications to the ZE the largest part of the job will be reading the existing code. The cross-reference tool helps a lot when browsing through the PHP source code. Apart from that you can always ask questions in the #php.pecl room on efnet.
+我希望这篇文章可以帮你理解如何给 PHP 添加新特性，理解 Zend 引擎 如何运行 php 脚本。尽管这篇文章很长，但是我只覆盖到了整个系统的一小部分。当你想对 ZE 做出一些修改的时候，工作量最大的部分就是阅读已经存在的代码。[交叉引用工具](https://lxr.room11.org/)在阅读代码的时候会提供很大帮助。除此以外，也可以在 [efnet](http://www.efnet.org/) 的 #php.pecl 房间问问题。
 
-After you created an implementation for whatever feature you want, the next step is bringing it up on the [internals mailing list](https://www.php.net/mailing-lists.php). People will then look at your feature and decide whether or not it should go in.
+当你添加完你想加的特性后，下一步就是把它放到[内部邮件列表](https://www.php.net/mailing-lists.php)。人们会查看你加的特性并决定是否应该把它加进项目中。
 
-Oh, and one last thing: The in operator here was just an example. I don’t plan on proposing it for inclusion ;)
+对了，还有最后一件事: `in` 操作符只是一个示例。我并不打算提议包含这个特性 ;)
 
-As always, if you have any further comments or questions, please leave them below.
-
-#### Conclusion
-
-未完待续
-
-[原文链接](http://nikic.github.io/2012/07/27/How-to-add-new-syntactic-features-to-PHP.html#the-life-of-a-php-script)
-
-> 沧海一声笑 
-滔滔两岸潮
-浮沉随浪 
-只记今朝
+如果你有任何问题或意见，请在下方留言。
