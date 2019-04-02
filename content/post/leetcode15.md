@@ -40,6 +40,7 @@ class Solution:
 
 111 => ['a', 'b', 'c']
 这样应该足够清晰了。
+
 ![bitmask](https://hurryking.github.io/img/bitmask.png)
 
 >>
