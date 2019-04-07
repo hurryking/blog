@@ -198,7 +198,7 @@ A class statement is
     or  a method (with method modifier, optional return-by-ref, method name, parameter list and method body)
 ```
 
-想知道什么是“methid modifer”，你需要去看　`method_modifier` 的定义。这就相当直白了。
+想知道什么是“method modifer”，你需要去看　`method_modifier` 的定义。这就相当直白了。
 
 为了让解析器支持 `in`，我们需要把 `expr T_IN expr` 规则加到　`expr_without_variable`　里面:
 
