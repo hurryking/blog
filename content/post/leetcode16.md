@@ -55,7 +55,7 @@ def solveNQueens(self, n):
 def dfs(self, nums, index, path, res):
     if index == len(nums):
         res.append(path)
-        return  # backtracking
+        return  # 回溯
     for i in xrange(len(nums)):
         nums[index] = i
         if self.valid(nums, index):  # pruning
