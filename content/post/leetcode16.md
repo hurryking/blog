@@ -62,7 +62,7 @@ def dfs(self, nums, index, path, res):
             tmp = "."*len(nums)
             self.dfs(nums, index+1, path+[tmp[:i]+"Q"+tmp[i+1:]], res)
 
-# 第n个 quuen 是否能被放在当前列
+# 第 n 个 quuen 是否能被放在当前列
 def valid(self, nums, n):
     for i in xrange(n):
         if abs(nums[i]-nums[n]) == n -i or nums[i] == nums[n]:
