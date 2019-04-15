@@ -84,7 +84,7 @@ class Solution(object):
 
         return common_prefix
 ```
-[Trie](https://hurryking.github.io/img/Trie.png)
+![Trie](https://hurryking.github.io/img/Trie.png)
 
 写了将近一个小时，知道用 trie 树，但是中间的逻辑部分总是不知道怎么实现，比如说 trie 的实现，如何向下遍历　dict，如何判断公共子序列是否到头了，最终还是看别人的实现
 
