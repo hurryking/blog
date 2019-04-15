@@ -33,7 +33,7 @@ All given inputs are in lowercase letters a-z.
 
 最长公共子前缀，给出一个字符串数组，求最长公共子前缀，所给出的字串都在 a-z 中。
 
-第一反应是给　brute force　哈哈哈哈，后来想了下，用 [字典树](https://zh.wikipedia.org/zh-hans/Trie) 再取出没有子节点的前 n 个元素
+第一反应是给 brute force 哈哈哈哈，后来想了下，用 [字典树](https://zh.wikipedia.org/zh-hans/Trie) 再取出没有子节点的前 n 个元素
 
 接下来的问题就是如何用 python 实现字典树了，用 py 的 dict
 
