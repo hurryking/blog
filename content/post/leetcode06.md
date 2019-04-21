@@ -8,7 +8,7 @@ author: Mr King
 
 ### Merge K sorted link list
 
-还是昨天的合并　K 个有序链表，今天去社区看了下，还有更简单的解决方案，时间复杂度和空间复杂度更好，大概的思路是用python的最小堆来实现，每次从堆里弹出最小元素，然后最近一次哪个链表出了最小元素就把下一个塞进堆里，很高效，很简洁，元祖（tuple）的运用是这个实现的点睛之笔，下面贴出代码
+还是昨天的合并　K 个有序链表，今天去社区看了下，还有更简单的解决方案，时间复杂度和空间复杂度更好，大概的思路是用 Python 的最小堆来实现，每次从堆里弹出最小元素，然后最近一次哪个链表出了最小元素就把下一个塞进堆里，很高效，很简洁，元祖（tuple）的运用是这个实现的点睛之笔，下面贴出代码
 
 ```
 def mergeKLists(self, lists):
@@ -16,7 +16,7 @@ def mergeKLists(self, lists):
 	dummy = node = ListNode(0)
 	
 	# 下面这一步很赞
-	h = [(n.val), n] for n in lists if n]
+	h = [(n.val, n) for n in lists if n]
 	
 	# n 转　minheap
 	heapify(h)
