@@ -1,5 +1,5 @@
 ---
-title: "20190422周总结"
+title: "周总结20190422"
 date: 2019-04-22T00:59:54+08:00
 archives: "2019"
 tags: ['reviewmyself']
