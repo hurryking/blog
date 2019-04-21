@@ -6,8 +6,6 @@ tags: ['reviewmyself']
 author: Mr King
 ---
 
-### 本周收获
-
 #### 上周计划完成情况
 
 
