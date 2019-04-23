@@ -57,7 +57,7 @@ All given inputs are in lowercase letters a-z.
 ```
 
 下面是代码
-```
+```python
 class Solution(object):
     def longestCommonPrefix(self, strs):
         """

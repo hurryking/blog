@@ -25,7 +25,8 @@ Input points have no order.
 看完题目，回家想了一路，大概思路是求两点之间的距离，如果是正方形两点之前的距离只有两个个值，暴力破解两层循环，代码不堪入目
 
 看评论区有个两行搞定的
-```
+
+```python
 class Solution(object):
     def validSquare(self, p1, p2, p3, p4):
         """

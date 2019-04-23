@@ -35,7 +35,7 @@ For example, given n = 3, a solution set is:
 排列好所有括号
 
 下面是代码
-```
+```python
 class Solution(object):
     def generateParenthesis(self, n):
         """

@@ -52,7 +52,7 @@ Z 字形字符串转换，要求把给定字符串按照指定的行数进行转
 
 属于找规律的题，把字符串先按照行数分 n 个list，然后按照规律模拟步进，最后再把三行合并到一起。
 
-```
+```python
 class Solution(object):
     def convert(self, s, numRows):
         """

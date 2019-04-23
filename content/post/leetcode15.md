@@ -10,7 +10,7 @@ author: Mr King
 
 接着上回提到的求[子集合](https://hurryking.github.io/2019/03/leetcode12/)的问题，继续说位操作解法。
 
-```
+```python
 class Solution:
     def subsets(self, nums):
         """

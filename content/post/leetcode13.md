@@ -34,7 +34,7 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum
 
 rest 代表剩余步数，遍历如果当前位置的最大布数比剩余布数大就保留当前位置的布数，剩余布数为 0 并且没有到达尾部的时候返回 False
 
-```
+```python
 class Solution(object):
     def canJump(self, nums):
         """
@@ -52,7 +52,7 @@ class Solution(object):
 
 另一种解法 当前所在位置大于这个位置前的所有元素所能跳到的最大位置，证明就无法跳过当前位置，返回False
 
-```
+```python
 class Solution(object):
     def canJump(self, nums):
         """

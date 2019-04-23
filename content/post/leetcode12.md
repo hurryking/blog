@@ -45,7 +45,7 @@ Output:
 
 最终要达成的目标
 
-```
+```python
 class Solution:
     def subsets(self, nums):
         """

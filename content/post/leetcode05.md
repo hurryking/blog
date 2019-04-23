@@ -23,7 +23,8 @@ Output: 1->1->2->3->4->4->5->6
 ```
 
 合并n个有序链表，第一眼看到觉的很简单，想怎么实现的时候头大，大体思路是全部都放到一个list里，然后排序list，再转链表
-```
+
+```python
 class Solution(object):
     def mergeKLists(self, lists):
         """

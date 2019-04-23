@@ -27,7 +27,7 @@ Given a collection of distinct integers, return all possible permutations.
 给出一组不重复的整数，返回所有可能的排列组合
 
 深度优先遍历解法DFS
-```
+```python
 class Solution(object):
     def permute(self, nums):
         res = []

@@ -27,7 +27,7 @@ Output:
 
 之前有刷过一道，给出一组不可能重复的数字求排列组合的问题，[Permutation](https://hurryking.github.io/2019/03/leetcode09/), 第一反应就是套用之前的解法加上判断重复的逻辑。
 
-```
+```python
 class Solution(object):
     def permuteUnique(self, nums):
         """

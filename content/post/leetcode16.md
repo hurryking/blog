@@ -45,7 +45,7 @@ Explanation: There exist two distinct solutions to the 4-queens puzzle as shown 
 #### 解题
 
 
-```
+```python
 def solveNQueens(self, n):
     res = []
     self.dfs([-1]*n, 0, [], res)

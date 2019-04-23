@@ -34,7 +34,7 @@ Explanation: The square root of 8 is 2.82842..., and since
 
 牛顿迭代法
 
-```
+```python
 class Solution(object):
     def mySqrt(self, x):
         """

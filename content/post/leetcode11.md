@@ -30,7 +30,7 @@ A solution set is:
 
 本题没有思路，最终从讨论区得到的思路，下面是代码
 
-```
+```python
 class Solution(object):
     def threeSum(self, nums):
         """
@@ -75,7 +75,7 @@ class Solution(object):
 
 想起来前面做的回文也可以用双指针去做，时间复杂度更低
 
-```
+```python
 class Solution(object):
     def isPalindrome(self, x):
         """

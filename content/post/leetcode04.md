@@ -25,7 +25,7 @@ Explanation: 342 + 465 = 807.
 两数相加，以链表形式表示(主要考察链表的熟悉度)，我还是用了栈，大体思路就是先转成栈，运算完成再转成链表，对链表还是不熟悉，得多加练习了
 有时候思路很清晰，但是实现起来就是特别慢，还是基本功没打好，得加油了
 
-```
+```python
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
