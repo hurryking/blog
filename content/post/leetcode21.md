@@ -3,7 +3,7 @@ title: "Leetcode21"
 date: 2019-04-24T22:24:36+08:00
 archives: "2019"
 tags: []
-author: John SMITH
+author: Mr King
 ---
 
 #### 3Sum Closest
@@ -22,7 +22,7 @@ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 
 这道题是 [3Sum](<https://hurryking.github.io/2019/03/leetcode11/>) 的扩展，思路是一样的用双指针
 
-```
+```python
 class Solution(object):
     def threeSumClosest(self, nums, target):
         """
