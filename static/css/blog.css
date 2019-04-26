@@ -428,7 +428,7 @@ pre {
     -webkit-overflow-scrolling: touch;
     color: #4a4a4a;
     overflow-x: auto;
-    padding: 1.25rem 1.5rem;
+    padding: 0;
     white-space: pre;
     word-wrap: normal
 }
@@ -2832,14 +2832,6 @@ a.box:active {
 
 .content figure figcaption {
     font-style: italic
-}
-
-.content pre {
-    -webkit-overflow-scrolling: touch;
-    overflow-x: auto;
-    padding: 1.25em 1.5em;
-    white-space: pre;
-    word-wrap: normal
 }
 
 .content sub,.content sup {
