@@ -35,6 +35,8 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         res = []
+        # 此处的排序可以想下作用是什么
+        numd.sort()
         self.dfs(nums, [], res)
         
         return res
