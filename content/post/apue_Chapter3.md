@@ -26,7 +26,7 @@ author: Mr King
 
 read 中提到的**预读**(read ahead)，读出多余应用需要的，预备下次使用，减少I/O
 write 中提到文件系统的**延迟写**(delayed write)的流程，先写高速缓冲区然后进队列，最后进磁盘，减少I/O
-找到一个质量比较高的关于文件系统的![资源](http://www.cs.cornell.edu/courses/cs415/1999fa/slides-fs/siframes.htm)，有兴趣的可以看看
+找到一个质量比较高的关于文件系统的[资源](http://www.cs.cornell.edu/courses/cs415/1999fa/slides-fs/siframes.htm)，有兴趣的可以看看
 
 lseek 文件中的空洞不占用磁盘块(已经验证)，但是文件结尾的空洞会占磁盘块(未验证)
 这里给出一个在 linux 上快速生成指定大小文件的命令 dd
