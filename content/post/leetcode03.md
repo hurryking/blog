@@ -53,6 +53,7 @@ s = Solution()
 print(s.isPalindrome(x))
 ```
 然后去评论区看了下，又出现了一行解决的，思路是把数字转字符串然后反转，和没反转前的对比一样就是回文，这个思路比我的好，并且发现了一个骚操作，一行反转字符串
+
 ```python
 class Solution(object):
     def isPalindrome(self, x):

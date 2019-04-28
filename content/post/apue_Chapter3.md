@@ -7,7 +7,7 @@ author: Mr King
 ---
 
 
-#### Uinx 环境高级编程　第三章
+#### Unix 环境高级编程　第三章
 
 ![APUE思维导图](http://hurryking.github.io/img/APUE_Chapter3.svg)
 文件I/O

@@ -87,14 +87,15 @@ class Solution(object):
 ```
 #### 20190305更新
 今天去讨论区看了下，有个比较清爽的实现，自己写一边，吸收下，还有刚才看了下排版，昨天太过着急睡觉没检查，乱套了，下次需要注意了
-```
+
+```python
 class Solution(object):
     def addTwoNumbers(self, l1, l2):
         carry = 0
         # 头节点为哑节点
         root = n = ListNode(0)
         while l1 or l2 or carry:
-            \# 如果最后一次进位了还需要再往后插入一个１(这个实现是实在是棒！)
+            # 如果最后一次进位了还需要再往后插入一个１(这个实现是实在是棒！)
             d1 = d2 = 0
             if l1:
                 d1 = l1.val
