@@ -15,7 +15,9 @@ author: Mr King
 讲到一些 Uninx 下的文件操作函数，open creat read close fcntl
 其中文件共享一节讲到了内核使用３种数据结构来表示打开的文件
 1. 进程表项(每个进程会在进程表中有一个记录项，记录项中有一张此进程打开的文件描述符表)
+
 2. 文件表项(记录文件的文件状态标识，当前的文件偏移量和 v 节点指针)
+
 3. v节点表(记录文件类型和操作文件的函数指针还有 i 节点)
 
 这里给出 APUE 中的图
@@ -41,12 +43,13 @@ count 是要 copy 的次数
 bs 是每次写入的字节数
 dd 大多数时候用来测试操作系统的写入速度
 
-fcntl　O_SYNC 开启后我的实验结果和课本中提到的不一样(有空可以研究下为啥)
+fcntl O_SYNC 开启后我的实验结果和课本中提到的不一样(有空可以研究下为啥)
 
-遇到了　git large file 的问题，对 git 原理还是不熟悉，要有耐心去读官方手册，然后实验，一味靠搜索解决不了根本的认知问题
+遇到了 git large file 的问题，对 git 原理还是不熟悉，要有耐心去读官方手册，然后实验，一味靠搜索解决不了根本的认知问题
 
 习题3.5 比较有意思
 * ./command > outfile 2>&1
+
 * ./command 2>&1 >outfile
 第一条会把 STDOUT_FILENO 重定向到 outfile，然后 dup 将 STDOUT_FILENO 复制到 STDERR_FILENO，即把 STDIN_FILENO 和 STDERR_FILENO 指向同一个文件表项。
 第二条先把 STDERR_FILENO 复制到终端的 fd，然后把 STDOUT_FILENO 重定向到 outfile，也就是最终会把错误输出在终端，标准输出到 outfile。
