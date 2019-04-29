@@ -48,6 +48,7 @@ fcntl O_SYNC 开启后我的实验结果和课本中提到的不一样(有空可
 遇到了 git large file 的问题，对 git 原理还是不熟悉，要有耐心去读官方手册，然后实验，一味靠搜索解决不了根本的认知问题
 
 习题3.5 比较有意思
+
 * ./command > outfile 2>&1
 
 * ./command 2>&1 >outfile
