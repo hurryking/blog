@@ -63,5 +63,6 @@ class Solution(object):
 ```
 
 ![Dutch Flag](https://hurryking.github.io/img/DuthFlag.png)
+[快速排序](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#%E5%8E%9F%E5%9C%B0%EF%BC%88in-place%EF%BC%89%E5%88%86%E5%89%B2%E7%9A%84%E7%89%88%E6%9C%AC)
 
 > 世人笑你太疯癫，你笑世人看不传。
