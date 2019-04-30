@@ -46,23 +46,23 @@ class Solution(object):
         tail = len(nums)-1
         while middle <= tail:
             if nums[middle] == 0:
-                tmp = nums[middle]
-                nums[middle] = nums[head]
-                nums[head] = tmp
+                # more pythonic way to change values
+                nums[middle], nums[head] = nums[head], nums[middle]
                 middle += 1
                 head += 1
             elif nums[middle] == 1:
                 middle += 1
             else:
-                temp = nums[middle]
-                nums[middle] = nums[tail]
-                nums[tail] = temp
+                nums[middle], nums[tail] = nums[tail], nums[middle]
                 tail -= 1
         
         return nums
+                
 ```
 
 ![Dutch Flag](https://hurryking.github.io/img/DuthFlag.png)
 [快速排序](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#%E5%8E%9F%E5%9C%B0%EF%BC%88in-place%EF%BC%89%E5%88%86%E5%89%B2%E7%9A%84%E7%89%88%E6%9C%AC)
 
-> 世人笑你太疯癫，你笑世人看不传。
+人是不是成熟之后都会变得无情，还是只有我一个人这样。
+
+> 世人笑你太疯癫，你笑世人看不穿。
