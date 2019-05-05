@@ -12,19 +12,19 @@ author: Mr King
 
 ```
 struct stat {
-    mode_t 			st_mode; 	/* 文件类型以及模式(权限) */
-    ino_t 			st_ino;		/* i节点编号 */
-    dev_t			st_dev;		/* 设备号(文件系统) */
-    dev_t   		st_rdev;	/* 设备号(特殊文件) 字符特殊设备和块特殊设备 */
-    nlink_t 		st_nlink;   /* 链接数 */
-    uid_t 			st_uid;	    /* 所属者的用户ID */
-    gid_t			st_gid;		/* 所属组的组ID(有歧义所属者的组ID) */
-    off_t 			st_size;	/* 普通文件的字节数 */
- 	struct timespec	st_atime;	/* 最后一次访问时间 */
-    struct timespec st_mtime;	/* 最后一次修改时间 */
-    struct timespec st_ctime;	/* 最后一次文件状态修改时间 */
-    blksize_t		st_blksize; /* I/O 块的字节数 */
-    blkcnt_t		st_blocks;	/* 分配的磁盘块数 */
+    mode_t          st_mode;    /* 文件类型以及模式(权限) */
+    ino_t           st_ino;	    /* i节点编号 */
+    dev_t           st_dev;	    /* 设备号(文件系统) */
+    dev_t           st_rdev;    /* 设备号(特殊文件) 字符特殊设备和块特殊设备 */
+    nlink_t         st_nlink;   /* 链接数 */
+    uid_t           st_uid;	    /* 所属者的用户ID */
+    gid_t           st_gid;	    /* 所属组的组ID(有歧义所属者的组ID) */
+    off_t           st_size;    /* 普通文件的字节数 */
+    struct timespec	st_atime;   /* 最后一次访问时间 */
+    struct timespec st_mtime;   /* 最后一次修改时间 */
+    struct timespec st_ctime;   /* 最后一次文件状态修改时间 */
+    blksize_t       st_blksize; /* I/O 块的字节数 */
+    blkcnt_t        st_blocks;  /* 分配的磁盘块数 */
 }
 ```
 
