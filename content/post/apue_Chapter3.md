@@ -52,6 +52,7 @@ fcntl O_SYNC 开启后我的实验结果和课本中提到的不一样(有空可
 * ./command > outfile 2>&1
 
 * ./command 2>&1 >outfile
+
 第一条会把 STDOUT_FILENO 重定向到 outfile，然后 dup 将 STDOUT_FILENO 复制到 STDERR_FILENO，即把 STDIN_FILENO 和 STDERR_FILENO 指向同一个文件表项。
 第二条先把 STDERR_FILENO 复制到终端的 fd，然后把 STDOUT_FILENO 重定向到 outfile，也就是最终会把错误输出在终端，标准输出到 outfile。
 
