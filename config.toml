@@ -1,6 +1,7 @@
 baseURL = "https://hurryking.github.io/"
 languageCode = "zh-CN"
 title = "胡言乱语"
+author = "Mr King"
 
 summaryLength=50
 
