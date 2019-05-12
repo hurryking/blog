@@ -52,8 +52,12 @@ fcntl O_SYNC 开启后我的实验结果和课本中提到的不一样(有空可
 * ./command > outfile 2>&1
 
 * ./command 2>&1 >outfile
+
 第一条会把 STDOUT_FILENO 重定向到 outfile，然后 dup 将 STDOUT_FILENO 复制到 STDERR_FILENO，即把 STDIN_FILENO 和 STDERR_FILENO 指向同一个文件表项。
-第二条先把 STDERR_FILENO 复制到终端的 fd，然后把 STDOUT_FILENO 重定向到 outfile，也就是最终会把错误输出在终端，标准输出到 outfile。
+
+第二条先把 STDERR_FILENO 复制到终端的 fd，STDERR_FILENO　和　终端fd 共享一个文件表项，然后把 STDOUT_FILENO 重定向到 outfile，也就是最终会把错误输出在终端，标准输出到 outfile。
+
+这样解释还是不够详细，有时间还是得看 linux 内核关于 shell　部分的具体实现。
 
 看到了一篇文章中提到程序员的剩余价值问题，处于金字塔最低端，要想办法成全自己。
 利用自身优势去服务更多认可自己价值的人，才是正道，做自己的产品，提供基于自身的价值才是唯一的出路。
