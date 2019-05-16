@@ -30,3 +30,5 @@ getc() getchar() putchar() fgetc() putc() fputc() fgets() fputs()
 
 C 语言内存布局 size 详解
 text data bss heap stack high_add
+
+![Duff's device](http://www.catb.org/jargon/html/D/Duffs-device.html) 一个很厉害的字节拷贝算法 看起来很玄学 哈哈哈
