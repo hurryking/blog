@@ -34,3 +34,5 @@ text data bss heap stack high_add
 setjmp getjmp 使用 ![try catch](http://www.di.unipi.it/~nids/docs/longjump_try_trow_catch.html)
 里面的 switch + while 看的头晕目眩
 ![Duff's device](http://www.catb.org/jargon/html/D/Duffs-device.html) 一个很厉害的字节拷贝算法 看起来很玄学 哈哈哈
+
+第七章中(7.10-2)自动变量的潜在问题没有看懂需要再找资料理解下
