@@ -244,4 +244,8 @@ var_dump($shortest_path);
 
 这里有一个质量比较高的算法[讲解资料](<http://www-math.mit.edu/~rothvoss/18.304.3PM/Presentations/1-Melissa.pdf>)，推荐给看到的人。
 
+算法发明者
+
+![Edsger_Wybe_Dijkstra](https://hurryking.github.io/img/Edsger_Wybe_Dijkstra.jpg)
+
 >Simpliety is prerequisite of reliability. 	   ---- Edsger Dijkstra
