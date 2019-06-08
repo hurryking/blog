@@ -13,7 +13,7 @@ author: John SMITH
 
 1. 购买vps(建议买国外的，国内受监管) 如果有就跳过此步
 
-    推荐[购买地址](https://m.do.co/c/e9484b4d33df)
+    推荐[购买地址](https://m.do.co/c/e9484b4d33df) (建议先买5$/month没，一般需求应该够了，没必要选25$的)
     
     
     服务端要求的要求操作系统为**Ubuntu 16+ / Debian 8+ / CentOS 7+**，所以vps选操作系统时注意下不要选错了
