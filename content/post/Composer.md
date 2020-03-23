@@ -317,13 +317,9 @@ function includeFile($file)
 	3. 缺点
 		需要开启 APCu 扩展，这个优化与 Level 2/A 不共存
 	
-参考资料
-[0] [类的自动加载](https://www.php.net/manual/zh/language.oop5.autoload.php) 
-
-[1] [spl_autoload_register](https://www.php.net/manual/zh/function.spl-autoload-register.php) 
-
-[2] [PSR](https://www.php-fig.org/psr/) 
-
-[3] [composer](https://getcomposer.org/doc/articles/autoloader-optimization.md) 
-
-[4] [APCu](https://www.php.net/manual/zh/book.apcu.php) 
+参考资料  
+[0] [类的自动加载](https://www.php.net/manual/zh/language.oop5.autoload.php)  
+[1] [spl_autoload_register](https://www.php.net/manual/zh/function.spl-autoload-register.php)  
+[2] [PSR](https://www.php-fig.org/psr/)  
+[3] [composer](https://getcomposer.org/doc/articles/autoloader-optimization.md)  
+[4] [APCu](https://www.php.net/manual/zh/book.apcu.php)  
