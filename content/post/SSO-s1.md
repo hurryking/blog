@@ -60,5 +60,5 @@ QIDC 的认证流程有三种。
 参考资料  
 [0] [SSO](https://auth0.com/docs/sso/current)  
 [1] [SAML](http://saml.xml.org/wiki/saml-introduction)  
-[2] [QIDC](https://openid.net/connect/)
+[2] [QIDC](https://openid.net/connect/)  
 [3] [LDAP](https://ldap.com/)
