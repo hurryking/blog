@@ -8,24 +8,24 @@ author: Mr King
 
 最近在读罗素写的西方哲学史，其中有一首关于酒神的诗
 
-*Will they ever come to me, ever again,
-The long long dances,
-On through the dark till the dim stars wane?
-Shall I feel the dew on my throat, and the stream
-Of wind in my hair? Shall our white feet gleam
-In the dim expanses?
-Oh, feet of a fawn to the greenwood fled,
-Alone in the grass and the loveliness;
-Leap of the hunted, no more in dread,
-Beyond the snares and the deadly press:
-Yet a voice still in the distance sounds,
-A voice and a fear and a haste of hounds;
-O wildly labouring, fiercely fleet,
-Onward yet by river and glen…
-Is it joy or terror, ye storm-swift feet?…
-To the dear lone lands untroubled of men,
-Where no voice sounds, and amid the shadowy green
-The little things of the woodland live unseen.*
+*Will they ever come to me, ever again,  
+The long long dances,  
+On through the dark till the dim stars wane?  
+Shall I feel the dew on my throat, and the stream  
+Of wind in my hair? Shall our white feet gleam  
+In the dim expanses?  
+Oh, feet of a fawn to the greenwood fled,  
+Alone in the grass and the loveliness;  
+Leap of the hunted, no more in dread,  
+Beyond the snares and the deadly press:  
+Yet a voice still in the distance sounds,  
+A voice and a fear and a haste of hounds;  
+O wildly labouring, fiercely fleet,  
+Onward yet by river and glen…  
+Is it joy or terror, ye storm-swift feet?…  
+To the dear lone lands untroubled of men,  
+Where no voice sounds, and amid the shadowy green  
+The little things of the woodland live unseen.*  
 
 下面是何志武老先生的翻译
 
