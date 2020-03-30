@@ -48,10 +48,10 @@ author: John SMITH
 	End-User 就是终端用户  
 	这里用 网页版Gmail 登录举例，Gmail 向 Google 认证中心发起请求，然后 Google 向用户发起认证申请并获取授权，用户同意后，Google 返回一个访问令牌(JWT)给 Gmail，Gmail 拿着这个令牌去向 Google 请求获取用户信息，Google 返回用户信息给 Gmail。
 
-	QIDC 的认证流程有三种。
-		1. [Authorization Code Flow (授权码模式)](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowSteps) 
-		2. [Implicit Flow (简化模式)](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowSteps) 
-		3. [Hybrid Flow (混合模式)](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowSteps) 
+	QIDC 的认证流程有三种。  
+		1. [Authorization Code Flow (授权码模式)](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowSteps)  
+		2. [Implicit Flow (简化模式)](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowSteps)  
+		3. [Hybrid Flow (混合模式)](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowSteps)  
 	每种模式的流程都有一些差别，适用场景不一样，就安全性来说授权码模式最安全。
 
 
