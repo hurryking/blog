@@ -6,11 +6,11 @@ tags: ['go']
 author: John SMITH
 
 ---
-### hugo 安装
+### Hugo 安装
 由于最近换了一台新的服务器，想把博客迁移过来所以决定把hugo 在新服务器上再安装一遍  
 环境: CentOS Linux release 7.3.1611 x86_64  
 
-阅读 Hugo 安装文档[Hugo 的文档](https://github.com/gohugoio/hugo) 发现新版本需要 go1.11 所以先安装 go
+阅读 [Hugo 的文档](https://github.com/gohugoio/hugo) 发现新版本需要 go1.11 所以先安装 go
 
 找到下载地址[下载地址](https://golang.org/dl/ ) 我们选择最新版本 1.14.1 选中x86_64 对应的二进制包
 切换到临时目录
@@ -56,5 +56,7 @@ tar -C /usr/local/bin -zxvf https://github.com/gohugoio/hugo/releases/download/v
 hugo version
 ```
 一气呵成，毫无营养含量的一篇博客就这样诞生了。
+
+后续继续在这篇基础上加 Hugo + Travis-CI 自动化发布博客到 GitPage (可能还有点营养，其实都是一些工具的使用)
 
 > 焦虑的时候最好做点什么事情，不然会更焦虑
