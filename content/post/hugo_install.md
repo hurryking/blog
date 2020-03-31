@@ -1,7 +1,10 @@
 ---
-title: "Hugo_install"
+title: "Hugo 安装"
 date: 2020-03-31T17:02:57+08:00
-draft: true
+archives: "2020"
+tags: ['go']
+author: John SMITH
+
 ---
 ### hugo 安装
 由于最近换了一台新的服务器，想把博客迁移过来所以决定把hugo 在新服务器上再安装一遍  
