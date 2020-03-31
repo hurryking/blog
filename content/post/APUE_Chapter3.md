@@ -9,6 +9,8 @@ author: Mr King
 
 #### Unix 环境高级编程　第三章
 
+> 这是一篇没有经过思考整理，单纯搬书的内容，不值得浪费时间去看
+
 ![APUE思维导图](http://hurryking.github.io/img/APUE_Chapter3.svg)
 文件I/O
 

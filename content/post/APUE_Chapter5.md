@@ -2,11 +2,13 @@
 title: "APUE_Chapter5"
 date: 2019-05-13T17:53:49+08:00
 archives: "2019"
-tags: ['apue']
+tags: ['APUE']
 author: Mr King
 ---
 
+### 第五章
 
+> 这是一篇没有经过思考整理，单纯搬书的内容，不值得浪费时间去看
 
 标准IO(带缓冲的IO)
 
