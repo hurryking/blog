@@ -108,11 +108,12 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --f
 cp config/server.properties config/server-1.properties
 ```
 
-修改 config/server-1.properties 中的参数  
+修改 config/server-1.properties 中的参数 
+```shell 
 broker.id=1  
 listeners=PLAINTEXT://:9093  
 log.dirs=/tmp/kafka-logs-1  
-
+```
 先启动 Zookeeper 服务，这里再贴一遍
 ```shell
 bin/zookeeper-server-start.sh config/zookeeper.properties
@@ -131,7 +132,7 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9093 --replication-fac
 ```
 
 然后启动两个生产者，分别向　A B 生产数据
-```
+```shell
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic A
 bin/kafka-console-producer.sh --broker-list localhost:9093 --topic B
 ```
@@ -139,12 +140,12 @@ bin/kafka-console-producer.sh --broker-list localhost:9093 --topic B
 启动两个消费者集组，一个消费者组　Ａ 有两个消费者，一个消费者组 B 有四个消费者  
 
 消费者组 A
-```
+```shell
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic A --group A
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic B --group A
 ```
 消费者组 B
-```
+```shell
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic A --offset latest --partition 0
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic A --offset latest --partition 1
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic B --offset latest --partition 0
