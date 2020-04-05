@@ -151,7 +151,7 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic A --offs
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic B --offset latest --partition 0
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic B --offset latest --partition 1
 ```
-消费者组　Ｂ 有些问题，因为官方不允许 group　参数和 partition 参数同时存在，所以没有给 B 组的消费者指定组 id，但是可以把它们理解为一个逻辑上的组。  
+消费者组 B 有些问题，因为官方不允许 group 参数和 partition 参数同时存在，所以没有给 B 组的消费者指定组 id，但是可以把它们理解为一个逻辑上的组。  
 
 以下是我的实验截图  
 ![Kafka_cluster](https://hurryking.github.io/img/Kafka_cluster.png)
