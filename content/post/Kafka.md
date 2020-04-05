@@ -1,4 +1,10 @@
-
+---
+title: "Kafka 入门"
+date: 2020-04-03T00:27:05+08:00
+archives: "2020"
+tags: ['Kafka']
+author: John SMITH
+---
 
 ### Kafka 入门
 
@@ -89,4 +95,5 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --f
 ```
 
 下面是我的实验截图  
-![Kafka_experiment](https://hurryking.github.io/img/Kafka_experiment.png)
+![Kafka_experiment](https://hurryking.github.io/img/Kafka_experiment.png)  
+0 是 zookeeper，1　是 Kafka 节点，2 是生产者，3　是消费者
