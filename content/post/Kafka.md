@@ -1,10 +1,4 @@
----
-title: "Kafka 入门"
-date: 2020-04-04T01:07:02+08:00
-archives: "2020"
-tags: ['Kafka', 'php']
-author: Mr King
----
+
 
 ### Kafka 入门
 
@@ -21,37 +15,78 @@ Kafka 主要的应用场景大体分为两类:
 
 1. Topic  
 	Kafka 中给流记录是按分类来存储的，每个分类就是一个 Topic
-2. Broker
+
+2. Broker  
 	消息中间件处理节点，一个 Kafka 节点就是一个 Broker，一个或者多个 Broker 可以组成一个 Kafka 集群，一般情况下 Kafka 都是已集群方式运行的，由 Zookeeper 来管理每个节点
-2. Producer  
+
+3. Producer  
 	数据生产者
 	它的职责是选择分配记录给哪个 Topic 的哪个 Partition，一般采用的策略是轮训，也可以根据记录的 key 进行自定义配置
 
-3. Consumer  
+4. Consumer  
 	数据消费者  
 	每个消费者保留的唯一元数据是该消费者在日志中的 offset 或 position，消费者可以以任意顺序来处理记录
 	![log_consumer](https://hurryking.github.io/img/log_consumer.png)
 
-	消费者默认都会有一个消费者组，发布到一个 Topic 的记录会被发送到每个消费者组内的每个消费者，消费者组中的消费者可以使用在多个进程中或者多个机器中。
+	消费者默认都会有一个消费者组，消费者组中的消费者可以使用在多个进程中或者多个机器中，发布到一个 Topic 的记录会被发送到每个消费者组内的其中一个消费者，也就是说一个消费者组实际上算是一个订阅者，内部的消费者有统一的 offset。  
+	消费者组保证了消费者的容错性，每个新的组员加入都会接手同组内其他成员的部分 Partition 日志，当一个消费者挂掉后，同组内的其他消费者可以代替它来继续工作。
 
-	![consumer_group](https://hurryking.github.io/img/consumer_groups.png)
 
-4. Partition  
+5. Partition  
 	物理上的概念，一个 Topic 可以分为多个 Partition，每个 Partition 内部是有序的
 
 	![Partition](https://hurryking.github.io/img/Kafka_Topic.png)
 
-	每条记录都会分配一个顺序增长的 id 数字被称为 offset，这个数字在每个 Partition 内是唯一的
-
+	每条记录都会分配一个顺序增长的 id 数字被称为 offset，这个数字在每个 Partition 内是唯一的  
 	Partition 的作用有两个。首先，它们允许日志扩展到超出单个服务器所能容纳的大小。每个单独的分区都必须适合承载它的服务器，但是一个主题可能有很多分区，因此它可以处理任意数量的数据。 其次，它们当做并行单元来处理。
 
 #### 给出一组 Kafka 集群运行案例
 
 ![consumer_groups](https://hurryking.github.io/img/consumer_groups.png)
 
-案例中一个集群中有两个 Broker，每个 Broker 有两个 Partition，有两个消费者组，消费者组 A 有两个消费者，消费者组 B 有 4 个消费者。
+案例中一个集群中有两个 Broker，每个 Broker 有两个 Partition，有两个消费者组，消费者组 A 有两个消费者，消费者组 B 有 4 个消费者。每个 Broker 产生的消息由一组消费者消费，消费者组内可以
 
 
 #### 快速上手
 
-理解了概念后我们就可以下载 Kafka 来操作一番
+1. 下载　[Kafka](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.4.1/kafka_2.12-2.4.1.tgz]) 2.4.1 并解压，我选择解压到 /usr/local/　下
+
+```shell
+wget https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.4.1/kafka_2.12-2.4.1.tgz
+tar -xzf kafka_2.12-2.4.1.tgz -C /usr/local
+cd /usr/local/kafka_2.12-2.4.1
+```
+
+2. 开启 Zookeeper 服务，Ｋafka 依赖 Zookeeper 来管理节点，为了方便我们上手，官方提供了一个启动单节点　Zookeeper 实例的脚本，我们直接使用就好了，当然生产环境不会这样。
+```
+bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+3. 开启一个 Kafka 服务
+```
+bin/kafka-server-start.sh config/server.properties
+```
+
+4. 创建一个　Topic  
+发布的消息存储在 localhost:9092 这个服务上，也就是我们刚才启动的 Kafka 服务，端口信息可以在 config/server.properties 中看到　　
+--replication-factor　１　冗余份数一份(容错用)  
+--partitions 1 分区个数一个  
+--topic test  主题名称　test
+```
+bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
+```
+
+5. 发送消息  
+启动一个生产者，向　test 生产消息
+```
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+```
+
+6. 消费消息  
+启动一个消费者，从头开始消费 test 的消息
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+```
+
+下面是我的实验截图  
+![Kafka_experiment](https://hurryking.github.io/img/Kafka_experiment.png)
