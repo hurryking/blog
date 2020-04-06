@@ -1,3 +1,11 @@
+---
+title: "Mysql 分区表实践"
+date: 2020-04-04T17:53:49+08:00
+archives: "2020"
+tags: ['mysql']
+author: Mr King
+---
+
 ### Mysql 表分区实践
 
 #### 为什么要分区
