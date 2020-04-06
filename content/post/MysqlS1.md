@@ -124,34 +124,34 @@ PARTITION BY RANGE (id) (
 );
 ```
 
-然后每个表插入8388608行数据  
+然后每个表插入8388608行数据(我使用的方法是insert into select)  
 ![mysql_partition_count](https://hurryking.github.io/img/mysql_partition_count.png)
 
 对比下使用了分区和没有使用分区的查询情况  
 ```sql
-select * from `account` where id = 5000000;
-select * from `account_partition` where id = 5000000;
+SELECT * FROM `account` WHERE `id` = 5000000;
+SELECT * FROM `account_partition` WHERE `id` = 5000000;
 ```
 
 ![mysql_partition_select](https://hurryking.github.io/img/mysql_partition_select.png)
 
 ```sql
-select * from `account` where id = 2000000;
-select * from `account_partition` where id = 2000000;
+SELECT * FROM `account` WHERE `id` = 2000000;
+SELECT * FROM `account_partition` WHERE `id` = 2000000;
 ```
 ![mysql_partition_select_less](https://hurryking.github.io/img/mysql_partition_select_less.png)
 
 ```sql
-select * from `account` limit 5000000,10;
-select * from `account_partition` limit 5000000,10;
+SELECT * FROM `account` LIMIT 5000000,10;
+SELECT * FROM `account_partition` LIMIT 5000000,10;
 ```
 这组数据有些意思，值得深究一下，为什么分区的反而比没分区的快  
 ![mysql_partition_limit_1](https://hurryking.github.io/img/mysql_partition_limit_1.png)
 
 
 ```sql
-select * from `account` limit 6000000,10;
-select * from `account_partition` limit 6000000,10;
+SELECT * FROM `account` LIMIT 6000000,10;
+SELECT * FROM `account_partition` LIMIT 6000000,10;
 ```
 ![mysql_partition_limit](https://hurryking.github.io/img/mysql_partition_limit.png)
 
