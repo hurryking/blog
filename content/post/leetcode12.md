@@ -42,8 +42,7 @@ Output:
 2. 约束
   不能做哪些选择
 3. 目标
-
-最终要达成的目标
+  最终要达成的目标
 
 ```python
 class Solution:
