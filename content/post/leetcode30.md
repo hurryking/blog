@@ -1,5 +1,5 @@
 ---
-title: "Leetcode29"
+title: "Leetcode30"
 date: 2020-04-12T22:26:57+08:00
 archives: "2020"
 tags: ['leetcode']
