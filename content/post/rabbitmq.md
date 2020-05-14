@@ -1,3 +1,11 @@
+---
+title: "RabbitMq 基本概念以及使用"
+date: 2020-03-03T16:43:53+08:00
+archives: "2020"
+tags: ['rabbitmq']
+author: Mr King
+---
+
 ### RabbitMQ 基本概念以及使用
 
 #### AMQP 中的一些概念 
